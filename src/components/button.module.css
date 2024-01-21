@@ -1,0 +1,49 @@
+.green {
+  border-radius: 1rem;
+  background-color: rgb(30, 215, 96);
+  color: rgb(243, 245, 246);
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 23.17px;
+  padding: 25px 126px 25px 126px;
+}
+
+.blue {
+  border-radius: 4px;
+  background-color: rgb(48, 169, 222);
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 20.27px;
+  padding: 4px 8px 4px 8px;
+}
+
+.outline_orange {
+  border-radius: 4px;
+  border: 1px solid rgb(255, 80, 80);
+  background-color: rgb(255, 255, 255);
+  color: rgb(255, 80, 80);
+  font-weight: 400;
+  font-size: 1.2rem;
+  padding: 4px 8px 4px 8px;
+}
+
+.orange {
+  border-radius: 8px;
+  background-color: rgb(255, 127, 80);
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 23.17px;
+  padding: 21px 328px 21px 328px;
+}
+
+.white {
+  border-radius: 8px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(17, 17, 17);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 23.17px;
+  padding: 21px 328px 21px 328px;
+}/*# sourceMappingURL=Button.module.css.map */
