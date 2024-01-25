@@ -1,0 +1,43 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow-y: hidden;
+}
+
+.login_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rem 5rem;
+  width: 90rem;
+  transform: translateY(25%);
+  margin: 0 auto;
+}
+
+.logo {
+  width: 26rem;
+  margin-bottom: 4rem;
+}
+
+.text_wrap {
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: rgb(62, 62, 62);
+  margin-top: 2rem;
+}
+
+.text_wrap a {
+  font-weight: 700;
+}
+
+.carousel_wrap {
+  width: 90rem;
+  margin: 0 auto;
+}
+
+.copyright {
+  margin-top: 10rem;
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: rgb(170, 170, 170);
+}/*# sourceMappingURL=loginpage.module.css.map */

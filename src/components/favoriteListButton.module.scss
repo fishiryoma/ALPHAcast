@@ -1,0 +1,17 @@
+.container_button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+}
+
+.btn {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #718096;
+  background-color: transparent;
+}
+
+.icon {
+  font-size: 2rem;
+}
