@@ -1,17 +1,38 @@
 import styles from "./navbar.module.scss";
-import FavoriteListButton from "./FavoriteListButton";
-
-const lists = [
-  { name: "通勤清單" },
-  { name: "學習清單" },
-  { name: "睡前清單" },
-  { name: "我的Podcast" },
-  { name: "已收藏" },
-];
+import FavoriteListButton from "./Category/FavoriteListButton";
+import CategoryModal from "./Category/CategoryModal";
+import { useContext, useState } from "react";
+import ApiContext from "../contexts/ApiContext";
+import CategoryInput from "./Category/CategoryInput";
 
 function Navbar() {
-  const renderedList = lists.map((list) => (
-    <FavoriteListButton key={list.name} name={list.name} />
+  const [show, setShow] = useState(false);
+  const [input, setInput] = useState("");
+  const { myCategory, OnCreatCategory } = useContext(ApiContext);
+
+  const handleInputClick = async () => {
+    try {
+      const success = await OnCreatCategory(input);
+      if (success) {
+        setShow(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleShow = () => {
+    setShow(true);
+  };
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+  };
+  const handleClose = () => {
+    setInput("");
+    setShow(false);
+  };
+
+  const renderedList = myCategory.map((list) => (
+    <FavoriteListButton key={list.name} name={list.name} id={list.id} />
   ));
 
   return (
@@ -20,10 +41,23 @@ function Navbar() {
       <hr />
       <div className={styles.list_wrap}>
         {renderedList}
-        <button className={styles.btn}>
+        <button className={styles.btn} onClick={handleShow}>
           <span>+</span>新增分類
         </button>
       </div>
+      <CategoryModal
+        show={show}
+        handleClose={handleClose}
+        title="新增分類"
+        body={
+          <CategoryInput
+            input={input}
+            value={input}
+            onChange={handleInputChange}
+          />
+        }
+        handleInputClick={handleInputClick}
+      />
     </div>
   );
 }

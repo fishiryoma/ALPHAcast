@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import MainDisplay from "../components/MainDisplay";
 import Sidebar from "../components/Sidebar";
 import styles from "./homepage.module.scss";
+import { ApiProvider } from "../contexts/ApiContext.jsx";
 
 function HomePage() {
   const [userName, setUserName] = useState("");
@@ -18,11 +19,13 @@ function HomePage() {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <Navbar />
-      <MainDisplay />
-      <Sidebar />
-    </div>
+    <ApiProvider>
+      <div className={styles.container}>
+        <Navbar />
+        <MainDisplay />
+        <Sidebar />
+      </div>
+    </ApiProvider>
   );
 }
 

@@ -1,35 +1,9 @@
-import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import styles from "./loginpage.module.scss";
-import Button from "../components/Button";
-import { useNavigate } from "react-router-dom";
-import { getSpotifyAuth, getAccessToken } from "../api/auth-spotify";
+import { getSpotifyAuth } from "../api/auth-spotify";
 import LoginCarousel from "../components/LoginCarousel";
+import Button from "../components/Button";
 
 function LoginPage() {
-  const [code, setCode] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const getToken = async () => {
-      const token = await getAccessToken(code);
-      if (token) navigate("/home");
-    };
-    getToken();
-  }, [code]);
-
-  useEffect(() => {
-    const getToken = () => {
-      const urlParams = new URLSearchParams(new URL(window.location).search);
-      const spotifyCode = urlParams.get("code");
-      if (spotifyCode) {
-        localStorage.setItem("spotifyCode", spotifyCode);
-        setCode(spotifyCode);
-      }
-    };
-    getToken();
-  }, []);
-
   const handleClick = () => {
     getSpotifyAuth();
   };
