@@ -1,21 +1,28 @@
 import Modal from "react-bootstrap/Modal";
-import Button from "../Button";
 
-function CategoryModal({ show, handleClose, handleInputClick, ...rest }) {
+function CategoryModal({ show, handleClose, handleSaveClick, ...rest }) {
   return (
     <div>
-      <Modal show={show} onHide={handleClose} centered>
+      <Modal show={show} onHide={handleClose} centered size="md">
         <Modal.Header closeButton>
-          <Modal.Title>{rest.title}</Modal.Title>
+          <h3 className="modal-title fw-bold">{rest.title}</h3>
         </Modal.Header>
-        <Modal.Body>{rest.body}</Modal.Body>
+        <div style={{ height: "20rem" }} className="fs-4">
+          <Modal.Body>{rest.body}</Modal.Body>
+        </div>
         <Modal.Footer>
-          <Button classname="white" onClick={handleClose}>
+          <button
+            className="btn fs-4 btn_lg border-rounded-lg"
+            onClick={handleClose}
+          >
             取消
-          </Button>
-          <Button classname="orange" onClick={handleInputClick}>
+          </button>
+          <button
+            className="btn btn-orange-500 text-white fs-4 btn_lg border-rounded-lg"
+            onClick={handleSaveClick}
+          >
             儲存
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </div>

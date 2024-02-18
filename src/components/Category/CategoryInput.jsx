@@ -1,12 +1,10 @@
-import Form from "react-bootstrap/Form";
-
-function CategoryInput({ input, onChange, value }) {
+function CategoryInput({ onChange, value }) {
   return (
     <div>
-      <Form.Control
-        size="lg"
+      <input
+        className="form-control form-control-lg fs-4 w-full"
         type="text"
-        placeholder="Normal text"
+        placeholder="請輸入新增分類名稱"
         value={value}
         onChange={onChange}
       />

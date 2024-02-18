@@ -1,4 +1,5 @@
-import { FaBookmark } from "react-icons/fa6";
+import { BsBookmark } from "react-icons/bs";
+import { BsBookmarkFill } from "react-icons/bs";
 
 function CardPlayMusic() {
   window.onSpotifyIframeApiReady = (IFrameAPI) => {
@@ -31,7 +32,7 @@ function CardPlayMusic() {
           >
             現正撥放
           </p>
-          <FaBookmark style={{ fontSize: "1.4rem", color: "#FF7F50" }} />
+          <BsBookmarkFill style={{ fontSize: "1.4rem", color: "#FF7F50" }} />
         </div>
       </div>
       <div>

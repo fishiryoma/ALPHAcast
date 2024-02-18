@@ -34,8 +34,7 @@
   color: rgb(255, 255, 255);
   font-weight: 400;
   font-size: 1.6rem;
-  line-height: 23.17px;
-  padding: 21px 328px 21px 328px;
+  padding: 11px 80px;
 }
 
 .white {
@@ -44,6 +43,5 @@
   color: rgb(17, 17, 17);
   font-weight: 400;
   font-size: 1.6rem;
-  line-height: 23.17px;
-  padding: 21px 328px 21px 328px;
+  padding: 11px 80px;
 }/*# sourceMappingURL=button.module.css.map */

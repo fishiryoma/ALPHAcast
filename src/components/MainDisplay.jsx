@@ -1,18 +1,23 @@
-import styles from "./mainDisplay.module.scss";
-import CardMusicVertical from "./CardMusicVertical";
+import { useState } from "react";
+import ShowCardSmInfo from "./MainDisplay/ShowCardSmInfo";
+import ShowCardLg from "./MainDisplay/ShowCardLg";
+import ShowListModal from "./MainDisplay/ShowListModal";
+import AddPodcast from "./MainDisplay/AddPodcast";
 
 function MainDisplay() {
+  const [modalShow, setModalShow] = useState(false);
   return (
-    <div className={styles.container}>
-      <p className={styles.title}>早安</p>
-      <div className={styles.card_wrap}>
-        <CardMusicVertical />
-        <CardMusicVertical />
-        <CardMusicVertical />
-        <CardMusicVertical />
-        <CardMusicVertical />
-        <CardMusicVertical />
+    <div className="p-5 ">
+      <p className="fs-1 fw-bold mb-3">早安</p>
+      <AddPodcast />
+      <div className="d-flex gap-4 flex-wrap">
+        <ShowCardSmInfo handleOpen={() => setModalShow(true)} />
+        <ShowListModal
+          show={modalShow}
+          handleClose={() => setModalShow(false)}
+        />
       </div>
+      <ShowCardLg />
     </div>
   );
 }

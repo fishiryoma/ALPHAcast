@@ -65,7 +65,7 @@ export const getRefreshToken = async () => {
   try {
     const { data } = await axios.post(url, params, { headers });
     Cookies.set("access_token", data.access_token);
-    Cookies.set("refrese_token", data.refresh_token);
+    // Cookies.set("refresh_token", data.refresh_token);
   } catch (err) {
     console.log(`Get refresh token failed ${err}`);
   }
@@ -90,8 +90,8 @@ export const searchItem = async (word) => {
     const { data } = await axios.get(url, {
       headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },
     });
-    console.log(data);
-    return data;
+    // console.log(data);
+    return data.shows;
   } catch (err) {
     console.log(`Search failed ${err}`);
   }

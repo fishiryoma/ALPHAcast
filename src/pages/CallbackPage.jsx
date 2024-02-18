@@ -1,12 +1,20 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "../api/auth-spotify";
-import { register } from "../api/acApi";
+import { register, createCategory } from "../api/acApi";
+
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
 
 function CallbackPage() {
   const navigate = useNavigate();
+  const lists = [
+    "通勤清單,star",
+    "學習清單,tiger",
+    "睡前清單,dog",
+    "我的Podcast,door",
+    "已收藏,bike",
+  ];
   useEffect(() => {
     const getState = () => {
       const urlParams = new URLSearchParams(new URL(window.location).search);
@@ -17,6 +25,7 @@ function CallbackPage() {
         const getSpotifyToken = async () => {
           try {
             await getAccessToken(spotifyCode);
+            navigate("/home");
           } catch (err) {
             console.log(`Get Spotify Token Failed ${err}`);
           }
@@ -35,6 +44,12 @@ function CallbackPage() {
                 timer: 1500,
                 showConfirmButton: false,
               });
+              // await createCategory(lists[0]);
+              // await createCategory(lists[1]);
+              // await createCategory(lists[2]);
+              // await createCategory(lists[3]);
+
+              if (res) setMyCategory();
               navigate("/home");
             }
             if (!res.id) {

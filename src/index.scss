@@ -1,3 +1,36 @@
+@import "bootstrap/scss/bootstrap.scss";
+
+/* Bootstrap Customized */
+
+.hover_text_white {
+  &:hover,
+  &:active {
+    color: $white;
+  }
+}
+.border-rounded-lg {
+  border-radius: 1.2rem;
+}
+.btn_lg {
+  padding: 1rem 5.5rem;
+}
+.hr {
+  // background-color: #e2e8f0;
+  margin: 0 !important;
+}
+
+//Helper
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    width: 10px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
 /*reset */
 html {
   box-sizing: border-box;

@@ -1,17 +1,27 @@
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  overflow-y: hidden;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.copyright {
+  position: absolute;
+  bottom: 2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #aaaaaa;
 }
 
 .login_wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20rem 5rem;
-  width: 90rem;
-  transform: translateY(25%);
-  margin: 0 auto;
 }
 
 .logo {
@@ -28,11 +38,6 @@
 
 .text_wrap a {
   font-weight: 700;
-}
-
-.carousel_wrap {
-  width: 90rem;
-  margin: 0 auto;
 }
 
 .copyright {
