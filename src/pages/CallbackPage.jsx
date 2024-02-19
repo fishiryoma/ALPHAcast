@@ -6,11 +6,10 @@ import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
 
 const lists = [
-  "通勤清單,star",
-  "學習清單,tiger",
-  "睡前清單,dog",
-  "我的Podcast,door",
-  "已收藏,bike",
+  "通勤清單,1f68c",
+  "學習清單,1f4d6",
+  "睡前清單,1f3a7",
+  "我的Podcast,1f3b6",
 ];
 
 function CallbackPage() {

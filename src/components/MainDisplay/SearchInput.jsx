@@ -1,16 +1,16 @@
 import { IoIosSearch } from "react-icons/io";
 import { useState } from "react";
-import { searchItem } from "../../api/auth-spotify";
+import { searchShow } from "../../api/auth-spotify";
 
-function SearchInput({ setSearchItems }) {
+function SearchInput({ setSearchedShows }) {
   const [input, setInput] = useState("");
 
   const handleKeyPress = async (e) => {
     if (e.key === "Enter") {
       try {
-        const res = await searchItem(input);
+        const res = await searchShow(input);
         console.log(res.items);
-        setSearchItems(res.items);
+        setSearchedShows(res.items);
       } catch (err) {
         console.log(`Search failed ${err}`);
       }

@@ -89,7 +89,7 @@ export const getProfile = async () => {
 };
 
 // Spofity搜尋功能
-export const searchItem = async (word) => {
+export const searchShow = async (word) => {
   const url = `https://api.spotify.com/v1/search?q=${word}&type=show`;
   try {
     const { data } = await axios.get(url, {
@@ -98,6 +98,32 @@ export const searchItem = async (word) => {
     // console.log(data);
     return data.shows;
   } catch (err) {
-    console.log(`Search failed ${err}`);
+    console.error(`Search failed ${err}`);
+  }
+};
+
+export const getShow = async (id) => {
+  const url = `https://api.spotify.com/v1/shows/${id}`;
+  try {
+    const { data } = await axios.get(url, {
+      headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },
+    });
+    // console.log(data);
+    return data;
+  } catch (err) {
+    console.error(`Get show failed ${err}`);
+  }
+};
+
+export const getEpisodes = async (id) => {
+  const url = `https://api.spotify.com/v1/shows/${id}/episodes`;
+  try {
+    const { data } = await axios.get(url, {
+      headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },
+    });
+    // console.log(data);
+    return data;
+  } catch (err) {
+    console.error(`Get Episodes failed ${err}`);
   }
 };

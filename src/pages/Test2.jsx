@@ -1,4 +1,4 @@
-import { getProfile, getRefreshToken, searchItem } from "../api/auth-spotify";
+import { getProfile, getRefreshToken } from "../api/auth-spotify";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import MainDisplay from "../components/MainDisplay";

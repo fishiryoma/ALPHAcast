@@ -49,6 +49,7 @@ export const createCategory = async (name) => {
     return data.success;
   } catch (err) {
     console.log(`Create Category Failed ${err}`);
+    throw err;
   }
 };
 
@@ -91,5 +92,17 @@ export const deleteEpisode = async (id) => {
     return data.success;
   } catch (err) {
     console.log(`Delete Category Failed ${err}`);
+  }
+};
+
+export const addShow = async ({ categryId, showId }) => {
+  try {
+    const { data } = await acApi.post(`api/categories/${categryId}/shows`, {
+      showId,
+    });
+    console.log(data);
+    return data.success;
+  } catch (err) {
+    console.error(`Add Show Failed ${err}`);
   }
 };

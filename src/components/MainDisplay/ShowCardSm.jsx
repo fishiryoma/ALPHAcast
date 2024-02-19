@@ -1,7 +1,14 @@
-function ShowCardSm({ info }) {
+function ShowCardSm({ info, isSelected, setIsSeleted }) {
   return (
-    <div className="shadow rounded-3 p-4" style={{ width: "16.5rem" }}>
-      <div className="">
+    <div
+      className="shadow rounded-3 p-4 "
+      style={{
+        width: "16.5rem",
+        outline: `${isSelected === info.id ? "solid 2px #FF7F50" : ""}`,
+      }}
+      onClick={() => setIsSeleted(info.id)}
+    >
+      <div>
         <img
           src={info.images[1].url}
           className="rounded-3"

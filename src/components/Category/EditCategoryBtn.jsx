@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import useApi from "./../../contexts/useApi";
-import * as emoji from "node-emoji";
 import Dropdown from "react-bootstrap/Dropdown";
 import CategoryModal from "./CategoryModal";
 import CategoryInput from "./CategoryInput";
 import EmojiInput from "./EmojiInput";
+import { Emoji } from "emoji-picker-react";
 
 function EditCategoryBtn({
   icon,
@@ -18,9 +18,15 @@ function EditCategoryBtn({
   const [deleteShow, setDeleteShow] = useState(false);
   const [inputText, setInputText] = useState(name);
   const [inputEmoji, setInpuEmoji] = useState(icon);
-  const { AddPodcast, setShowPodcastModal } = useApi();
+  const { AddPodcast, setShowPodcastModal, nowCategory, setNowCategory } =
+    useApi();
 
   const dropddownClass = "h4 mb-0 py-4 px-4";
+  const btnActive = {
+    background: `${nowCategory === id ? "black" : ""}`,
+    color: `${nowCategory === id ? "white" : ""}`,
+    stroke: "white",
+  };
 
   // 操作編輯API
   const onDeleteClick = () => {
@@ -32,14 +38,21 @@ function EditCategoryBtn({
     setEditShow(false);
     handleEditClick({ id, name: categoryName });
   };
-
+  // console.log("editshow", editShow);
+  // console.log("deleteshow", deleteShow);
   return (
     <div>
-      <div className="w-100 d-flex justify-content-between py-3">
-        <button className="d-flex fs-4 align-items-center bg-transparent gap-4">
-          <div>{emoji.get(icon)}</div>
-          <div className="text-body-secondary">{name}</div>
-        </button>
+      <div
+        className="w-100 d-flex justify-content-between py-3 btn btn-outline-dark border-0 border-rounded-lg"
+        style={btnActive}
+        onClick={() => {
+          setNowCategory(id);
+        }}
+      >
+        <div className="d-flex fs-4 align-items-center gap-4 ">
+          <Emoji unified={icon} size="20" />
+          <div>{name}</div>
+        </div>
         <Dropdown>
           <Dropdown.Toggle variant="none" bsPrefix="none">
             <FiMoreVertical className="fs-2" />
@@ -69,9 +82,9 @@ function EditCategoryBtn({
         title="刪除分類"
         body={
           <div>
-            <span>您確定要繼續刪除</span>
+            <span>您確定要繼續刪除 </span>
             <span style={{ fontWeight: 700 }}>
-              {emoji.get(icon)}
+              <Emoji unified={icon} size="20" />
               {name}
             </span>
             <span> 的分類嗎？</span>
@@ -84,7 +97,7 @@ function EditCategoryBtn({
         handleSaveClick={onEditClick}
         title="編輯分類"
         body={
-          <div>
+          <div className="d-flex gap-3">
             <EmojiInput value={inputEmoji} setInpuEmoji={setInpuEmoji} />
             <CategoryInput
               value={inputText}
