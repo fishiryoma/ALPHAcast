@@ -22,7 +22,7 @@ function Navbar() {
       try {
         const res = await getCategory();
         setMyCategory(res);
-        console.log("--------RUN USEEFFECT in NAVBAR----------");
+        // console.log("--------RUN USEEFFECT in NAVBAR----------");
       } catch (err) {
         console.log(err);
       }

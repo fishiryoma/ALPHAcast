@@ -1,20 +1,20 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "../api/auth-spotify";
-import { register, createCategory } from "../api/acApi";
-
+import { register, createCategory, getCategory } from "../api/acApi";
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
 
+const lists = [
+  "通勤清單,star",
+  "學習清單,tiger",
+  "睡前清單,dog",
+  "我的Podcast,door",
+  "已收藏,bike",
+];
+
 function CallbackPage() {
   const navigate = useNavigate();
-  const lists = [
-    "通勤清單,star",
-    "學習清單,tiger",
-    "睡前清單,dog",
-    "我的Podcast,door",
-    "已收藏,bike",
-  ];
   useEffect(() => {
     const getState = () => {
       const urlParams = new URLSearchParams(new URL(window.location).search);
@@ -22,44 +22,41 @@ function CallbackPage() {
       if (urlParams.get("error")) navigate("/login");
       if (spotifyCode) {
         localStorage.setItem("spotifyCode", spotifyCode);
-        const getSpotifyToken = async () => {
-          try {
-            await getAccessToken(spotifyCode);
-            navigate("/home");
-          } catch (err) {
-            console.log(`Get Spotify Token Failed ${err}`);
-          }
-        };
 
         const registerAC = async () => {
           try {
-            await getSpotifyToken();
-            const res = await register();
+            const res = await getAccessToken(spotifyCode);
+            const registerRes = await register(res);
             // 顯示註冊成功再跳轉
-            console.log(res);
-            if (res.id) {
+            console.log(registerRes);
+            if (registerRes.id) {
               Swal.fire({
                 title: "註冊成功",
                 icon: "success",
                 timer: 1500,
                 showConfirmButton: false,
               });
-              // await createCategory(lists[0]);
-              // await createCategory(lists[1]);
-              // await createCategory(lists[2]);
-              // await createCategory(lists[3]);
-
-              if (res) setMyCategory();
-              navigate("/home");
-            }
-            if (!res.id) {
+              const res = await getCategory();
+              if (!res.length) {
+                await createCategory(lists[0]);
+                await createCategory(lists[1]);
+                await createCategory(lists[2]);
+                await createCategory(lists[3]);
+                await createCategory(lists[4]);
+              }
+              setTimeout(() => {
+                navigate("/home");
+              }, 1500);
+            } else {
               Swal.fire({
                 title: "註冊失敗，麻煩再試一次",
                 icon: "error",
                 timer: 1500,
                 showConfirmButton: false,
               });
-              navigate("/login");
+              setTimeout(() => {
+                navigate("/login");
+              }, 1500);
             }
           } catch (err) {
             console.log(`Register Alphacast Failed ${err}`);
@@ -69,7 +66,7 @@ function CallbackPage() {
       }
     };
     getState();
-  }, []);
+  }, [navigate]);
 
   return (
     <div

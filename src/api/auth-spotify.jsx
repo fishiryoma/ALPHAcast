@@ -2,8 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 // //Request User Authorization
-const clientId = "f93bfda7ee8e47569890f4812c3add02";
-const clientSecert = "a5c801cbc1e44e84a6be3929948fe4d1";
+const clientId = import.meta.env.VITE_SPOTIFY_ID;
+const clientSecert = import.meta.env.VITE_SPOTIFY_SECRET;
 const redirectUri = "http://localhost:3000/callback";
 const scope = "user-read-private user-read-email";
 const authUrl = new URL("https://accounts.spotify.com/authorize");
@@ -43,11 +43,16 @@ export const getAccessToken = async (code) => {
   };
   try {
     const { data } = await axios.post(url, params, { headers });
-    Cookies.set("access_token", data.access_token);
-    Cookies.set("refresh_token", data.refresh_token);
-    console.log(data);
+    if (data) {
+      Cookies.set("access_token", data.access_token);
+      Cookies.set("refresh_token", data.refresh_token);
+      // 測試用
+      // console.log(data);
+      return data.access_token;
+    }
   } catch (err) {
-    console.log(`Get Access Token Failed ${err}`);
+    console.error(`Get Access Token Failed ${err}`);
+    throw err;
   }
 };
 

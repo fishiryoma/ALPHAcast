@@ -1,14 +1,13 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 
-const baseUrl = "https://spotify-backend.alphacamp.io/";
+const baseUrl = import.meta.env.VITE_AC_API_URL;
 const acApi = axios.create({
   baseURL: baseUrl,
   headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` },
 });
 
-export const register = async () => {
-  const token = Cookies.get("access_token");
+export const register = async (token) => {
   try {
     const { data } = await axios.post(`${baseUrl}api/users`, {
       spotifyToken: token,
@@ -16,16 +15,20 @@ export const register = async () => {
     if (data.token.length) {
       Cookies.set("AC_token", data.token);
     }
-    console.log(data);
+    // 測試用
+    // console.log(data);
     return data;
   } catch (err) {
-    console.log(`Register failed ${err}`);
+    console.error(`Register failed ${err}`);
+    throw err;
   }
 };
 
 export const getCategory = async () => {
   try {
-    const { data } = await acApi.get("api/categories");
+    const { data } = await acApi.get("api/categories", {
+      headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` },
+    });
     console.log(data);
     return data.categories;
   } catch (err) {
@@ -35,9 +38,13 @@ export const getCategory = async () => {
 
 export const createCategory = async (name) => {
   try {
-    const { data } = await acApi.post("api/categories", {
-      name,
-    });
+    const { data } = await acApi.post(
+      "api/categories",
+      {
+        name,
+      },
+      { headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` } }
+    );
     console.log(data);
     return data.success;
   } catch (err) {
