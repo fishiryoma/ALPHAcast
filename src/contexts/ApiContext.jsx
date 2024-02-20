@@ -6,7 +6,7 @@ const ApiContext = createContext();
 
 function ApiProvider({ children }) {
   const [myCategory, setMyCategory] = useState([]);
-  const [nowCategory, setNowCategory] = useState(null);
+  const [nowCategory, setNowCategory] = useState("");
   const [showPodcastModal, setShowPodcastModal] = useState(false);
 
   useEffect(() => {

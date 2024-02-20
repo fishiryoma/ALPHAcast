@@ -12,7 +12,6 @@ function App() {
           <Routes>
             <Route path="*" element={<LoginPage />} />
             <Route path="/callback" element={<CallbackPage />} />
-
             <Route path="/home" element={<Test2 />} />
           </Routes>
         </AuthProvider>

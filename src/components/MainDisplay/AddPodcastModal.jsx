@@ -22,7 +22,6 @@ function AddPodcastModal({ show, handleClose, ...rest }) {
     try {
       const res = await addShow({ showId: isSelected, categryId: nowCategory });
       if (res) {
-        console.log("ok");
         setIsSeleted("");
         setMyCategory(
           myCategory.map((item) => {

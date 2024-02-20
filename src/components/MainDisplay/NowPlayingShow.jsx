@@ -1,11 +1,41 @@
+import { deleteShow } from "../../api/acApi";
+import useApi from "../../contexts/useApi";
+
+function ShortenText({ text, maxLength }) {
+  return (
+    <div>
+      {text.length > maxLength ? `${text.slice(0, maxLength)}...` : text}
+    </div>
+  );
+}
+
 function NowPlayingShow({ handleClose, showInfo }) {
-  function ShortenText({ text, maxLength }) {
-    return (
-      <div>
-        {text.length > maxLength ? `${text.slice(0, maxLength)}...` : text}
-      </div>
-    );
-  }
+  const { nowCategory, myCategory, setMyCategory } = useApi();
+  // console.log(myCategory);
+  const handleDelete = async () => {
+    try {
+      const res = await deleteShow({
+        categoryId: nowCategory,
+        showId: showInfo[0].id,
+      });
+      if (res) {
+        setMyCategory(
+          myCategory.map((category) => {
+            if (category.id === nowCategory) {
+              return {
+                ...category,
+                savedShows: category.savedShows.filter(
+                  (show) => show.id !== showInfo[0].id
+                ),
+              };
+            } else return category;
+          })
+        );
+      }
+    } catch (err) {
+      console.log(`Delete Show Failed ${err}`);
+    }
+  };
 
   return (
     <div className="d-flex gap-4 p-4">
@@ -31,7 +61,12 @@ function NowPlayingShow({ handleClose, showInfo }) {
           </div>
         </div>
         <div className="text-end">
-          <button className="btn btn-outline-danger mt-2 fs-5 ">刪除</button>
+          <button
+            className="btn btn-outline-danger mt-2 fs-5"
+            onClick={handleDelete}
+          >
+            刪除
+          </button>
         </div>
       </div>
     </div>

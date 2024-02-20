@@ -5,6 +5,7 @@ import ShowListModal from "./ShowListModal";
 function ShowCardSmInfo({ id }) {
   const [showInfo, setShowInfo] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+
   useEffect(() => {
     const getShowInfo = async () => {
       try {

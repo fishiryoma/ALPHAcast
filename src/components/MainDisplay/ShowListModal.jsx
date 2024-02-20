@@ -2,19 +2,16 @@ import Modal from "react-bootstrap/Modal";
 import ShowCardLg from "./ShowCardLg";
 import NowPlayingShow from "./NowPlayingShow";
 import { useEffect, useState } from "react";
-import { getEpisodes } from "../../api/auth-spotify";
+import { getEpisodesByShow } from "../../api/auth-spotify";
 
 function ShowListModal({ show, handleClose, showInfo }) {
   const [episodes, setEpisodes] = useState([]);
 
-  console.log("********", showInfo);
-  console.log(episodes);
-
   useEffect(() => {
     const getAllEpisodes = async () => {
+      if (!showInfo.length) return;
       try {
-        const res = await getEpisodes(showInfo[0].id);
-        console.log(res);
+        const res = await getEpisodesByShow(showInfo[0].id);
         setEpisodes([res.items]);
       } catch (err) {
         console.error(`Get Episodes failed ${err}`);

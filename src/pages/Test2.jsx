@@ -13,7 +13,6 @@ function HomePage() {
       await getRefreshToken();
       const { display_name } = await getProfile();
       setUserName(display_name);
-      // await searchItem("chill");
     };
     updatePage();
   }, []);

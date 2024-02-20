@@ -40,6 +40,7 @@ function EditCategoryBtn({
   };
   // console.log("editshow", editShow);
   // console.log("deleteshow", deleteShow);
+
   return (
     <div>
       <div

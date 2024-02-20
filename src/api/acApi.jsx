@@ -73,12 +73,12 @@ export const editCategory = async ({ id, name }) => {
   }
 };
 
-export const addEpisode = async ({ id }) => {
+export const addEpisode = async (id) => {
   try {
     const { data } = await acApi.post("api/episodes", {
-      id,
+      episodeId: id,
     });
-    console.log(data);
+    // console.log(data);
     return data.success;
   } catch (err) {
     console.log(`Add Episode Failed ${err}`);
@@ -88,7 +88,7 @@ export const addEpisode = async ({ id }) => {
 export const deleteEpisode = async (id) => {
   try {
     const { data } = await acApi.delete(`api/episodes/${id}`);
-    console.log(data);
+    // console.log(data);
     return data.success;
   } catch (err) {
     console.log(`Delete Category Failed ${err}`);
@@ -104,5 +104,17 @@ export const addShow = async ({ categryId, showId }) => {
     return data.success;
   } catch (err) {
     console.error(`Add Show Failed ${err}`);
+  }
+};
+
+export const deleteShow = async ({ categoryId, showId }) => {
+  try {
+    const { data } =
+      await acApi.delete(`api/categories/${categoryId}/shows/${showId}
+`);
+    // console.log(data);
+    return data.success;
+  } catch (err) {
+    console.log(`Delete Show Failed ${err}`);
   }
 };

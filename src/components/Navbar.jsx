@@ -13,10 +13,16 @@ import useApi from "./../contexts/useApi";
 import { Emoji } from "emoji-picker-react";
 
 function Navbar() {
-  const { myCategory, setMyCategory } = useApi();
+  const { myCategory, setMyCategory, nowCategory, setNowCategory } = useApi();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState("");
   const [categoryEmoji, setCategoryEmoji] = useState("1f642");
+
+  const btnActive = {
+    background: `${nowCategory === "" ? "black" : ""}`,
+    color: `${nowCategory === "" ? "white" : ""}`,
+    stroke: "white",
+  };
 
   // 操作Category API
   const handleCreateClick = async () => {
@@ -79,7 +85,11 @@ function Navbar() {
       <hr className="hr col-9 bg-secondary" />
       <div className="col-10 mt-5 ">
         {renderedList}
-        <button className="d-flex fs-4 align-items-center gap-4 col-12 py-3 btn btn-outline-dark border-0 border-rounded-lg">
+        <button
+          className="d-flex fs-4 align-items-center gap-4 col-12 py-3 btn btn-outline-dark border-0 border-rounded-lg"
+          style={btnActive}
+          onClick={() => setNowCategory("")}
+        >
           <Emoji unified="2764-fe0f" size="20" />
           <div>已收藏</div>
         </button>

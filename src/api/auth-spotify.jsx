@@ -115,8 +115,21 @@ export const getShow = async (id) => {
   }
 };
 
-export const getEpisodes = async (id) => {
+export const getEpisodesByShow = async (id) => {
   const url = `https://api.spotify.com/v1/shows/${id}/episodes`;
+  try {
+    const { data } = await axios.get(url, {
+      headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },
+    });
+    // console.log(data);
+    return data;
+  } catch (err) {
+    console.error(`Get Episodes failed ${err}`);
+  }
+};
+
+export const getEpisodes = async (id) => {
+  const url = `https://api.spotify.com/v1/episodes/${id}`;
   try {
     const { data } = await axios.get(url, {
       headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },

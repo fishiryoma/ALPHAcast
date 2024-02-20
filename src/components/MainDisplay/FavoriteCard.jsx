@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BsBookmark } from "react-icons/bs";
 import { BsBookmarkFill } from "react-icons/bs";
 import { BsPlayCircleFill } from "react-icons/bs";
 import { BsPauseCircleFill } from "react-icons/bs";
-import { addEpisode, deleteEpisode } from "../../api/acApi";
+import { deleteEpisode } from "../../api/acApi";
+import { getEpisodes } from "../../api/auth-spotify";
 import useAuth from "../../contexts/useAuth";
 
 function ConvertToHours({ ms }) {
@@ -25,26 +26,32 @@ function ShortenText({ text, maxLength }) {
   );
 }
 
-function ShowCardLg({ episodeData }) {
-  const [bookMark, setBookMark] = useState(false);
+function FavoriteCard({ id }) {
+  const [bookMark, setBookMark] = useState(true);
   const [playBtn, setPlayBtn] = useState(false);
+  const [epData, setEpData] = useState([]);
   const { favoriteEp, setFavoriteEp } = useAuth();
+
+  useEffect(() => {
+    const getEpData = async () => {
+      try {
+        const res = await getEpisodes(id);
+        // console.log(res);
+        setEpData([res]);
+      } catch (err) {
+        console.error(`Get Episodes failed ${err}`);
+      }
+    };
+    getEpData();
+  }, [id]);
 
   const handleBookMarkClick = async () => {
     setBookMark(!bookMark);
     try {
-      if (!bookMark) {
-        const res = await addEpisode(episodeData[0].id);
-        if (res) {
-          setFavoriteEp([...favoriteEp, { id: episodeData[0].id }]);
-        }
-      } else {
-        const res = await deleteEpisode(episodeData[0].id);
-        if (res) {
-          setFavoriteEp(
-            favoriteEp.filter((item) => item.id !== episodeData[0].id)
-          );
-        }
+      const res = await deleteEpisode(id);
+
+      if (res) {
+        setFavoriteEp(favoriteEp.filter((item) => item.id !== id));
       }
     } catch (err) {
       console.log(`Edit Episode Failed ${err}`);
@@ -53,19 +60,19 @@ function ShowCardLg({ episodeData }) {
 
   return (
     <div className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3 ">
-      {!episodeData?.length ? (
+      {!epData?.length ? (
         ""
       ) : (
         <>
           <img
-            src={episodeData[0].images[1].url}
+            src={epData[0].images[1].url}
             style={{ width: "9.6rem", height: "9.6rem" }}
             className="rounded-3"
           />
           <div className="d-flex flex-column flex-grow-1">
             <div>
               <div className="d-flex justify-content-between align-items-center">
-                <div className="fs-5 fw-bold mt-2">{episodeData[0].name}</div>
+                <div className="fs-5 fw-bold mt-2">{epData[0].name}</div>
                 <div
                   className="fs-4"
                   onClick={handleBookMarkClick}
@@ -83,13 +90,10 @@ function ShowCardLg({ episodeData }) {
                 </div>
               </div>
               <div className="text-gray-500 fs-5 mt-1">
-                <ShortenText
-                  text={episodeData[0].description}
-                  maxLength={200}
-                />
+                <ShortenText text={epData[0].description} maxLength={200} />
               </div>
             </div>
-            <div className="mt-3 d-flex gap-3 align-items-center ">
+            <div className="mt-3 d-flex gap-3 align-items-center">
               <div
                 onClick={() => setPlayBtn(!playBtn)}
                 style={{ cursor: "pointer" }}
@@ -105,8 +109,8 @@ function ShowCardLg({ episodeData }) {
                 )}
               </div>
               <p className="text-gray-500 fs-5">
-                {episodeData[0].release_date}・
-                <ConvertToHours ms={episodeData[0].duration_ms} />
+                {epData[0].release_date}・
+                <ConvertToHours ms={epData[0].duration_ms} />
               </p>
             </div>
           </div>
@@ -116,4 +120,4 @@ function ShowCardLg({ episodeData }) {
   );
 }
 
-export default ShowCardLg;
+export default FavoriteCard;
