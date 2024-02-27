@@ -1,40 +1,42 @@
 import { createContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import { register } from "../api/acApi";
+import { getRefreshToken } from "../api/spotifyApi";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
-function AuthProvider({ children }) {
+export function AuthProvider({ children }) {
   const [isAuth, setIsAuth] = useState(false);
-  const [favoriteEp, setFavoriteEp] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const isRegister = Cookies.get("access_token");
-    if (!isRegister) return;
-    if (isRegister) {
-      const getNewToken = async () => {
-        try {
-          const res = await register(isRegister);
-          if (res.token.length) setIsAuth(true);
-          setFavoriteEp(res.favoriteEpisodeIds);
-          navigate("/home");
-        } catch (err) {
-          console.error(`Register failed ${err}`);
-          throw err;
+    const checkTokenIsValid = async () => {
+      try {
+        if (!Cookies.get("access_token")) {
+          setIsAuth(false);
+          return;
         }
-      };
-      getNewToken();
-    }
-  }, [navigate]);
+        const refreshSpotifyToken = await getRefreshToken();
+        const res = await register(refreshSpotifyToken);
+        if (res.token) {
+          setIsAuth(true);
+        }
+      } catch (err) {
+        console.error(`AC Login failed ${err}`);
+      }
+    };
+    checkTokenIsValid();
+  }, [isAuth]);
 
   return (
-    <AuthContext.Provider value={{ isAuth, favoriteEp, setFavoriteEp }}>
+    <AuthContext.Provider
+      value={{
+        isAuth,
+        setIsAuth,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
 export default AuthContext;
-export { AuthProvider };

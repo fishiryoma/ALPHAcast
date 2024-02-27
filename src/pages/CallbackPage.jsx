@@ -1,97 +1,92 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAccessToken } from "../api/auth-spotify";
-import { register, createCategory, getCategory } from "../api/acApi";
+import { getAccessToken, getRefreshToken } from "../api/spotifyApi";
+import { register } from "../api/acApi";
+import useAuth from "../contexts/useAuth";
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
-
-const lists = [
-  "通勤清單,1f68c",
-  "學習清單,1f4d6",
-  "睡前清單,1f3a7",
-  "我的Podcast,1f3b6",
-];
+import Cookies from "js-cookie";
 
 function CallbackPage() {
+  const { isAuth } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
-    const getState = () => {
+    const alreadyRegisterAC = Cookies.get("AC_token");
+    if (alreadyRegisterAC) {
+      const loginAC = async () => {
+        try {
+          const refreshSpotifyToken = await getRefreshToken();
+          console.log("callback-1");
+          const res = await register(refreshSpotifyToken);
+          if (res.token) {
+            LoginSuccessMsg();
+            setTimeout(() => {
+              navigate("/mypage");
+            }, 1500);
+          }
+        } catch (err) {
+          console.error(`AC Login failed ${err}`);
+          FailMsg();
+          setTimeout(() => {
+            navigate("/login");
+          }, 1500);
+        }
+      };
+      loginAC();
+    }
+
+    const toRegister = () => {
       const urlParams = new URLSearchParams(new URL(window.location).search);
       const spotifyCode = urlParams.get("code");
-      if (urlParams.get("error")) navigate("/login");
+      if (urlParams.get("error")) {
+        navigate("/login");
+        return;
+      }
       if (spotifyCode) {
         localStorage.setItem("spotifyCode", spotifyCode);
-
         const registerAC = async () => {
           try {
-            const res = await getAccessToken(spotifyCode);
-            const registerRes = await register(res);
-            // 顯示註冊成功再跳轉
-            console.log(registerRes);
-            if (registerRes.id) {
-              Swal.fire({
-                title: "註冊成功",
-                icon: "success",
-                timer: 1500,
-                showConfirmButton: false,
-              });
-              const res = await getCategory();
-              if (!res.length) {
-                await createCategory(lists[0]);
-                await createCategory(lists[1]);
-                await createCategory(lists[2]);
-                await createCategory(lists[3]);
-                await createCategory(lists[4]);
-              }
+            const spotifyToken = await getAccessToken(spotifyCode);
+            const acPermission = await register(spotifyToken);
+            if (acPermission.id) {
+              RegisterSuccessMsg();
               setTimeout(() => {
-                navigate("/home");
-              }, 1500);
-            } else {
-              Swal.fire({
-                title: "註冊失敗，麻煩再試一次",
-                icon: "error",
-                timer: 1500,
-                showConfirmButton: false,
-              });
-              setTimeout(() => {
-                navigate("/login");
+                navigate("/mypage");
               }, 1500);
             }
           } catch (err) {
             console.log(`Register Alphacast Failed ${err}`);
+            // 第一次註冊失效問題，待上線再做測試
+            // console.log("regis---2");
+            FailMsg();
+            setTimeout(() => {
+              navigate("/login");
+            }, 1500);
           }
         };
         registerAC();
       }
     };
-    getState();
-  }, [navigate]);
+    if (!isAuth && !alreadyRegisterAC) toRegister();
+  }, []);
 
   return (
-    <div
-      style={{
-        position: "relative",
-      }}
-    >
+    <div className="position-relative">
       <div
+        className="position-absolute d-flex flex-column justify-content-center align-items-center w-100"
         style={{
-          position: "absolute",
           top: "25vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
         }}
       >
         <Spinner
           animation="border"
           variant="info"
+          className="m-5"
           style={{
             width: "9rem",
             height: "9rem",
             borderWidth: "1.25rem",
-            margin: "5rem",
           }}
         />
         <p
@@ -100,9 +95,37 @@ function CallbackPage() {
         >
           LOADING...
         </p>
+        =
       </div>
     </div>
   );
 }
 
 export default CallbackPage;
+
+function RegisterSuccessMsg() {
+  return Swal.fire({
+    title: "註冊成功",
+    icon: "success",
+    timer: 1500,
+    showConfirmButton: false,
+  });
+}
+
+function FailMsg() {
+  return Swal.fire({
+    title: "登入或註冊失敗，麻煩再試一次",
+    icon: "error",
+    timer: 1500,
+    showConfirmButton: false,
+  });
+}
+
+function LoginSuccessMsg() {
+  return Swal.fire({
+    title: "登入成功",
+    icon: "success",
+    timer: 1500,
+    showConfirmButton: false,
+  });
+}

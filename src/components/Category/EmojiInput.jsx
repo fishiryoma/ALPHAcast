@@ -2,7 +2,7 @@ import EmojiPicker from "emoji-picker-react";
 import { Emoji } from "emoji-picker-react";
 import { useState } from "react";
 
-function EmojiInput({ setEmoji, value }) {
+export default function EmojiInput({ setEmoji, value }) {
   const [emojiOpen, setEmojiOpen] = useState(false);
   return (
     <div className="bg-light border-rounded-lg p-2">
@@ -26,5 +26,3 @@ function EmojiInput({ setEmoji, value }) {
     </div>
   );
 }
-
-export default EmojiInput;

@@ -1,21 +1,47 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import Test2 from "./pages/Test2";
+import FavoritePage from "./pages/FavoritePage";
 import CallbackPage from "./pages/CallbackPage";
-import { AuthProvider } from "./contexts/AuthContext.jsx";
+import ShowPage from "./pages/ShowPage.jsx";
+import MyPage from "./pages/MyPage.jsx";
+import Root from "./pages/Root.jsx";
 
+import { ApiProvider } from "./contexts/ApiContext.jsx";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LoginPage />,
+  },
+  {
+    path: "/callback",
+    element: <CallbackPage />,
+  },
+  {
+    path: "/mypage",
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <MyPage />,
+      },
+      {
+        path: "/mypage/show/:id",
+        element: <ShowPage />,
+      },
+      {
+        path: "/mypage/favorite",
+        element: <FavoritePage />,
+      },
+    ],
+  },
+]);
 function App() {
   return (
     <div>
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="*" element={<LoginPage />} />
-            <Route path="/callback" element={<CallbackPage />} />
-            <Route path="/home" element={<Test2 />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
+      <ApiProvider>
+        <RouterProvider router={router} />
+      </ApiProvider>
     </div>
   );
 }

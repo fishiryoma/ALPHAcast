@@ -1,6 +1,11 @@
 @import "bootstrap/scss/bootstrap.scss";
 
 /* Bootstrap Customized */
+.main_container {
+  display: grid;
+  grid-template-columns: 26rem auto;
+  height: 100vh;
+}
 
 .hover_text_white {
   &:hover,
@@ -63,6 +68,7 @@ menu {
 }
 a {
   cursor: pointer;
+  text-decoration: none;
 }
 li {
   list-style: none;

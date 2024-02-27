@@ -12,7 +12,7 @@ export const register = async (token) => {
     const { data } = await axios.post(`${baseUrl}api/users`, {
       spotifyToken: token,
     });
-    if (data.token.length) {
+    if (data.token) {
       Cookies.set("AC_token", data.token);
     }
     // 測試用
@@ -82,6 +82,7 @@ export const addEpisode = async (id) => {
     return data.success;
   } catch (err) {
     console.log(`Add Episode Failed ${err}`);
+    throw err;
   }
 };
 
@@ -92,6 +93,7 @@ export const deleteEpisode = async (id) => {
     return data.success;
   } catch (err) {
     console.log(`Delete Category Failed ${err}`);
+    throw err;
   }
 };
 
@@ -104,6 +106,7 @@ export const addShow = async ({ categryId, showId }) => {
     return data.success;
   } catch (err) {
     console.error(`Add Show Failed ${err}`);
+    throw err;
   }
 };
 

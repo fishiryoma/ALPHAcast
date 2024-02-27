@@ -1,4 +1,4 @@
-function ShowCardSm({ info, isSelected, setIsSeleted }) {
+export default function SearchedShowCard({ info, isSelected, setIsSeleted }) {
   return (
     <div
       className="shadow rounded-3 p-4 "
@@ -22,5 +22,3 @@ function ShowCardSm({ info, isSelected, setIsSeleted }) {
     </div>
   );
 }
-
-export default ShowCardSm;

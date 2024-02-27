@@ -70,7 +70,7 @@ export const getRefreshToken = async () => {
   try {
     const { data } = await axios.post(url, params, { headers });
     Cookies.set("access_token", data.access_token);
-    // Cookies.set("refresh_token", data.refresh_token);
+    return data.access_token;
   } catch (err) {
     console.log(`Get refresh token failed ${err}`);
   }
@@ -82,9 +82,11 @@ export const getProfile = async () => {
     const { data } = await axios.get("https://api.spotify.com/v1/me", {
       headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },
     });
+    // console.log(data);
     return data;
   } catch (err) {
     console.log(`get profile failed ${err}`);
+    throw err;
   }
 };
 

@@ -1,6 +1,11 @@
 import Modal from "react-bootstrap/Modal";
 
-function CategoryModal({ show, handleClose, handleSaveClick, ...rest }) {
+export default function CategoryModal({
+  show,
+  handleClose,
+  handleSaveClick,
+  ...rest
+}) {
   return (
     <div>
       <Modal show={show} onHide={handleClose} centered size="md">
@@ -28,5 +33,3 @@ function CategoryModal({ show, handleClose, handleSaveClick, ...rest }) {
     </div>
   );
 }
-
-export default CategoryModal;
