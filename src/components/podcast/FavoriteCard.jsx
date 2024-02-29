@@ -24,30 +24,6 @@ export default function FavoriteCard({ id }) {
     getEpData();
   }, [id]);
 
-  useEffect(() => {
-    window.onSpotifyIframeApiReady = (IFrameAPI) => {
-      const options = {
-        uri: `spotify:episode:7makk4oTQel546B0PZlDM5`,
-      };
-      const element = document.getElementById("embed-iframe");
-      const callback = (EmbedController) => {
-        console.log(document.querySelectorAll(".play"));
-        document.querySelectorAll(".play").forEach((episode) => {
-          episode.addEventListener("click", () => {
-            EmbedController.loadUri(episode.dataset.spotifyId);
-            EmbedController.play();
-          });
-        });
-        document.querySelectorAll(".pause").forEach((episode) => {
-          episode.addEventListener("click", () => {
-            EmbedController.togglePlay();
-          });
-        });
-      };
-      IFrameAPI.createController(element, options, callback);
-    };
-  }, []);
-
   return (
     <div
       className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3 m-1"
