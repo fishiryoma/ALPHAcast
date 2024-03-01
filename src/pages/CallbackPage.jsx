@@ -1,75 +1,51 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAccessToken, getRefreshToken } from "../api/spotifyApi";
+import { getAccessToken } from "../api/spotifyApi";
 import { register } from "../api/acApi";
 import useAuth from "../contexts/useAuth";
 import Spinner from "react-bootstrap/Spinner";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie";
 
 function CallbackPage() {
-  const { isAuth, setIsAuth } = useAuth();
+  const { setIsAuth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const alreadyRegisterAC = Cookies.get("AC_token");
-    if (alreadyRegisterAC) {
-      const loginAC = async () => {
+    console.log("callback執行幾次");
+    const urlParams = new URLSearchParams(new URL(window.location).search);
+    const spotifyCode = urlParams.get("code");
+    if (urlParams.get("error")) {
+      setTimeout(() => {
+        FailMsg("授權註冊失敗");
+        navigate("/login");
+      }, 1500);
+      return;
+    }
+    if (spotifyCode) {
+      localStorage.setItem("spotifyCode", spotifyCode);
+      const registerAC = async () => {
         try {
-          const refreshSpotifyToken = await getRefreshToken();
-          const res = await register(refreshSpotifyToken);
-          if (res.token) {
+          const spotifyToken = await getAccessToken(spotifyCode);
+          const acPermission = await register(spotifyToken);
+          if (acPermission.id) {
             setIsAuth(true);
-            LoginSuccessMsg();
+            SuccessMsg("登入或註冊成功");
             setTimeout(() => {
               navigate("/mypage");
             }, 1500);
           }
         } catch (err) {
-          console.error(`AC Login failed ${err}`);
-          FailMsg();
+          console.log(`Register Alphacast Failed ${err}`);
+          //第一次請求就成功了，不知道為什麼後續又跳出1次請求失敗的訊息
+          console.log("production 測試");
           setTimeout(() => {
-            navigate("/login");
+            FailMsg("異常😟請重新整理頁面");
           }, 1500);
         }
       };
-      loginAC();
+      registerAC();
     }
-
-    const toRegister = () => {
-      const urlParams = new URLSearchParams(new URL(window.location).search);
-      const spotifyCode = urlParams.get("code");
-      if (urlParams.get("error")) {
-        navigate("/login");
-        return;
-      }
-      if (spotifyCode) {
-        localStorage.setItem("spotifyCode", spotifyCode);
-        const registerAC = async () => {
-          try {
-            const spotifyToken = await getAccessToken(spotifyCode);
-            const acPermission = await register(spotifyToken);
-            if (acPermission.id) {
-              setIsAuth(true);
-              RegisterSuccessMsg();
-              setTimeout(() => {
-                navigate("/mypage");
-              }, 1500);
-            }
-          } catch (err) {
-            console.log(`Register Alphacast Failed ${err}`);
-            // 第一次註冊會先失敗一次，第二次才會成功，待上線再做測試
-            // FailMsg();
-            // setTimeout(() => {
-            //   navigate("/login");
-            // }, 1500);
-          }
-        };
-        registerAC();
-      }
-    };
-    if (!isAuth && !alreadyRegisterAC) toRegister();
-  }, []);
+  }, [setIsAuth, navigate]);
 
   return (
     <div className="position-relative">
@@ -102,28 +78,19 @@ function CallbackPage() {
 
 export default CallbackPage;
 
-function RegisterSuccessMsg() {
+function SuccessMsg(msg) {
   return Swal.fire({
-    title: "註冊成功",
+    title: msg,
     icon: "success",
     timer: 1500,
     showConfirmButton: false,
   });
 }
 
-function FailMsg() {
+function FailMsg(msg) {
   return Swal.fire({
-    title: "登入或註冊失敗，麻煩再試一次",
+    title: msg,
     icon: "error",
-    timer: 1500,
-    showConfirmButton: false,
-  });
-}
-
-function LoginSuccessMsg() {
-  return Swal.fire({
-    title: "登入成功",
-    icon: "success",
     timer: 1500,
     showConfirmButton: false,
   });

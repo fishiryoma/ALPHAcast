@@ -12,7 +12,6 @@ import ShowPage from "./pages/ShowPage.jsx";
 import MyPage from "./pages/MyPage.jsx";
 import Root from "./pages/Root.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
-import { ApiProvider } from "./contexts/ApiContext.jsx";
 import { ErrorBoundary } from "react-error-boundary";
 
 // 先保留createBrowserRouter可以正常使用ErrorPage
@@ -33,36 +32,27 @@ import { ErrorBoundary } from "react-error-boundary";
 function App() {
   return (
     <div>
-      <ApiProvider>
-        <BrowserRouter>
-          {/* 雖然放上ErrorBoundary但沒有功效 */}
-          {/* <ErrorBoundary
+      <BrowserRouter>
+        {/* 雖然放上ErrorBoundary但沒有功效 */}
+        {/* <ErrorBoundary
             // FallbackComponent={() => {
             //   console.log("error");
             //   return <ErrorPage />;
             // }}
             // FallbackComponent={ErrorFallback}
           >*/}
-          <Routes>
-            <Route path="*" element={<LoginPage />} />
-            <Route path="callback" element={<CallbackPage />} />
-            <Route path="/callback" element={<CallbackPage />} />
-            <Route
-              path="/mypage"
-              element={<Root />}
-              errorElement={<ErrorPage />}
-            >
-              <Route index element={<MyPage />} />
-              <Route path="/mypage/show/:categoryId" element={<ShowPage />} />
-              <Route path="mypage/show/:categoryId" element={<ShowPage />} />
-              <Route path="/mypage/favorite" element={<FavoritePage />} />
-              <Route path="mypage/favorite" element={<FavoritePage />} />
-            </Route>
-          </Routes>
-          {/* </ErrorBoundary> */}
-        </BrowserRouter>
-        {/* <RouterProvider router={router} /> */}
-      </ApiProvider>
+        <Routes>
+          <Route path="*" element={<LoginPage />} />
+          <Route path="/callback" element={<CallbackPage />} />
+          <Route path="/mypage" element={<Root />} errorElement={<ErrorPage />}>
+            <Route index element={<MyPage />} />
+            <Route path="/mypage/show/:categoryId" element={<ShowPage />} />
+            <Route path="/mypage/favorite" element={<FavoritePage />} />
+          </Route>
+        </Routes>
+        {/* </ErrorBoundary> */}
+      </BrowserRouter>
+      {/* <RouterProvider router={router} /> */}
     </div>
   );
 }

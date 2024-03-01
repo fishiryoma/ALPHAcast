@@ -5,10 +5,20 @@ import ShowCard from "../components/podcast/ShowCard.jsx";
 import { useParams } from "react-router-dom";
 import search from "../../public/search.svg";
 import Loading from "../components/Loading.jsx";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function ShowPage() {
   const { myCategory } = useApi();
+  const navigate = useNavigate();
   let { categoryId } = useParams();
+
+  useEffect(() => {
+    if (!myCategory.length) {
+      navigate("/mypage");
+    }
+  }, [myCategory, navigate]);
+
   const nowCategoryAllData = myCategory.filter(
     (item) => item.id === categoryId
   );
@@ -39,8 +49,9 @@ function AddPodcast() {
         您尚未加入任何 Podcast，可以點擊按鈕新增！
       </p>
       <button
-        className="btn btn-orange-500 text-white fs-4 btn_lg border-rounded-lg"
+        className="btn text-white fs-4 btn_lg border-rounded-lg"
         onClick={() => setShowModal(true)}
+        style={{ backgroundColor: "#FF7F50" }}
       >
         新增 Podcast
       </button>

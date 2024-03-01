@@ -1,22 +1,25 @@
 import Carousel from "react-bootstrap/Carousel";
+import carousel01 from "../../public/carousel01.svg";
+import carousel02 from "../../public/carousel02.svg";
+import carousel03 from "../../public/carousel03.svg";
 
 const text = [
   {
     title: "鼓舞人心的故事",
     text: "從非凡的人生故事和成功經歷中獲得靈感",
-    img: "carousel01.svg",
+    img: carousel01,
     bg: "#23262F",
   },
   {
     title: "輕鬆分類與管理",
     text: "一目瞭然的分類，讓收藏的Podcast保持整潔",
-    img: "carousel02.svg",
+    img: carousel02,
     bg: "#2D3831",
   },
   {
     title: "Spotify 快速同步",
     text: "透過 Spotify 登入，即刻同步您的收藏，隨時隨地收聽",
-    img: "carousel03.svg",
+    img: carousel03,
     bg: "#063540",
   },
 ];

@@ -1,17 +1,29 @@
-import { getSpotifyAuth } from "../api/spotifyApi";
+import { getSpotifyAuth, getRefreshToken } from "../api/spotifyApi";
 import LoginCarousel from "../components/LoginCarousel";
 import useAuth from "../contexts/useAuth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../public/logo.png";
 
 export default function LoginPage() {
-  const { isAuth } = useAuth();
+  const { isAuth, setIsAuth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuth) return;
-    navigate("/mypage");
-  }, [isAuth]);
+    const checkToken = async () => {
+      if (isAuth) {
+        try {
+          const spotifyRefreshToken = await getRefreshToken();
+          if (spotifyRefreshToken) navigate("/mypage");
+          setIsAuth(true);
+        } catch (err) {
+          setIsAuth(false);
+          throw new Error(`取得refresh token失敗${err}`);
+        }
+      }
+    };
+    checkToken();
+  }, [isAuth, setIsAuth, navigate]);
 
   const handleClick = () => {
     getSpotifyAuth();
@@ -28,7 +40,7 @@ export default function LoginPage() {
             Copyright 2024
           </p>
           <div className="d-flex flex-column align-items-center gap-5">
-            <img src="logo.png" className="" style={{ width: "26rem" }} />
+            <img src={logo} className="" style={{ width: "26rem" }} />
             <button
               className="btn btn-success border-0 p-4 fs-4 border-rounded-lg"
               onClick={handleClick}

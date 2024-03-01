@@ -43,6 +43,7 @@ export const getAccessToken = async (code) => {
     Authorization: "Basic " + btoa(`${clientId}:${clientSecert}`),
   };
   try {
+    console.log("註冊API總共被呼叫幾次?");
     const { data } = await axios.post(url, params, { headers });
     if (data) {
       Cookies.set("access_token", data.access_token);
@@ -52,8 +53,7 @@ export const getAccessToken = async (code) => {
       return data.access_token;
     }
   } catch (err) {
-    console.error(`Get Access Token Failed ${err}`);
-    throw new Error("取得使用者授權失敗");
+    throw new Error(`取得使用者授權失敗 ${err}`);
   }
 };
 
@@ -73,8 +73,7 @@ export const getRefreshToken = async () => {
     Cookies.set("access_token", data.access_token);
     return data.access_token;
   } catch (err) {
-    console.log(`Get refresh token failed ${err}`);
-    throw new Error("無法取得新的認證碼");
+    throw new Error(`無法取得新的Spotify認證碼(RefreshToken) ${err}`);
   }
 };
 
@@ -87,8 +86,7 @@ export const getProfile = async () => {
     // console.log(data);
     return data;
   } catch (err) {
-    console.log(`get profile failed ${err}`);
-    throw new Error("取得使用者個人資料失敗");
+    throw new Error(`取得使用者個人資料失敗 ${err}`);
   }
 };
 
@@ -102,8 +100,7 @@ export const searchShow = async (word) => {
     // console.log(data);
     return data.shows;
   } catch (err) {
-    console.error(`Search failed ${err}`);
-    throw new Error("搜尋節目失敗");
+    throw new Error(`搜尋節目失敗 ${err}`);
   }
 };
 
@@ -116,8 +113,7 @@ export const getShow = async (id) => {
     // console.log(data);
     return data;
   } catch (err) {
-    console.error(`Get show failed ${err}`);
-    throw new Error("取得節目資訊失敗");
+    throw new Error(`取得節目資訊失敗 ${err}`);
   }
 };
 
@@ -130,8 +126,7 @@ export const getEpisodesByShow = async (id) => {
     // console.log(data);
     return data;
   } catch (err) {
-    console.error(`Get Episodes failed ${err}`);
-    throw new Error("取得Podcast資訊失敗");
+    throw new Error(`取得Podcast資訊失敗 ${err}`);
   }
 };
 
@@ -144,7 +139,6 @@ export const getEpisodes = async (id) => {
     // console.log(data);
     return data;
   } catch (err) {
-    console.error(`Get Episodes failed ${err}`);
-    throw new Error("取得Podcast資訊失敗");
+    throw new Error(`取得Podcast資訊失敗 ${err}`);
   }
 };

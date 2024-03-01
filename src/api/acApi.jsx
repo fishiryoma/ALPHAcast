@@ -7,6 +7,19 @@ const acApi = axios.create({
   headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` },
 });
 
+acApi.interceptors.request.use(
+  (config) => {
+    const token = Cookies.get("AC_token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    console.log(error);
+  }
+);
+
 export const register = async (token) => {
   try {
     const { data } = await axios.post(`${baseUrl}api/users`, {
@@ -19,22 +32,20 @@ export const register = async (token) => {
     // console.log(data);
     return data;
   } catch (err) {
-    console.error(`Register failed ${err}`);
-    throw new Error("登入或註冊AlphaCast失敗");
+    throw new Error(`登入或註冊AlphaCast失敗 ${err}`);
   }
 };
 
 export const getCategory = async () => {
   try {
     const { data } = await acApi.get("api/categories", {
-      headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` },
+      // headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` },
     });
     // 測試用
     // console.log(data);
     return data.categories;
   } catch (err) {
-    console.log(`Get Categories Failed ${err}`);
-    throw new Error("無法取得使用者分類清單");
+    throw new Error(`無法取得使用者分類清單 ${err}`);
   }
 };
 
@@ -44,15 +55,14 @@ export const createCategory = async (name) => {
       "api/categories",
       {
         name,
-      },
-      { headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` } }
+      }
+      // { headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` } }
     );
     // 測試用
     // console.log(data);
     return data.success;
   } catch (err) {
-    console.log(`Create Category Failed ${err}`);
-    throw new Error("建立新的分類失敗");
+    throw new Error(`建立新的分類失敗 ${err}`);
   }
 };
 
@@ -63,19 +73,17 @@ export const deleteCategory = async (id) => {
     // console.log(data);
     return data.success;
   } catch (err) {
-    console.log(`Delete Category Failed ${err}`);
-    throw new Error("刪除分類失敗");
+    throw new Error(`刪除分類失敗 ${err}`);
   }
 };
 
 export const editCategory = async ({ id, name }) => {
   try {
     const { data } = await acApi.put(`api/categories/${id}`, { name });
-    console.log(data);
+    // console.log(data);
     return data.success;
   } catch (err) {
-    console.log(`Edit Category Failed ${err}`);
-    throw new Error("編輯分類名稱失敗");
+    throw new Error(`編輯分類名稱失敗 ${err}`);
   }
 };
 
@@ -87,8 +95,7 @@ export const addEpisode = async (id) => {
     // console.log(data);
     return data.success;
   } catch (err) {
-    console.log(`Add Episode Failed ${err}`);
-    throw new Error("新增Podcast失敗");
+    throw new Error(`新增Podcast失敗 ${err}`);
   }
 };
 
@@ -98,8 +105,7 @@ export const deleteEpisode = async (id) => {
     // console.log(data);
     return data.success;
   } catch (err) {
-    console.log(`Delete Category Failed ${err}`);
-    throw new Error("刪除Podcast失敗");
+    throw new Error(`刪除Podcast失敗 ${err}`);
   }
 };
 
@@ -112,8 +118,7 @@ export const addShow = async ({ categoryId, showId }) => {
     // console.log(data);
     return data.success;
   } catch (err) {
-    console.error(`Add Show Failed ${err}`);
-    throw new Error("新增節目失敗");
+    throw new Error(`新增節目失敗 ${err}`);
   }
 };
 
@@ -125,7 +130,6 @@ export const deleteShow = async ({ categoryId, showId }) => {
     // console.log(data);
     return data.success;
   } catch (err) {
-    console.log(`Delete Show Failed ${err}`);
-    throw new Error("刪除節目失敗");
+    throw new Error(`刪除節目失敗 ${err}`);
   }
 };

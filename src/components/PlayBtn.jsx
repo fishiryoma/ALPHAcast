@@ -9,7 +9,7 @@ export default function PlayBtn({ id, epData }) {
 
   useEffect(() => {
     if (nowPlayingEp.id !== id) setPlayBtn(true);
-  }, [nowPlayingEp]);
+  }, [nowPlayingEp, id]);
 
   return (
     <div

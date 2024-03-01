@@ -75,6 +75,7 @@ function LogOutDropDown() {
     setIsAuth(false);
     navigate("/login");
   };
+
   return (
     <Dropdown>
       <Dropdown.Toggle

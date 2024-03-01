@@ -4,11 +4,11 @@
 ![Alt text](public/demo01.png)
 功能包含新增、編輯及刪除分類，搜尋 Spotify 上的 Podcast 節目，並加入"已收藏"清單。也串接了 Spotfiy 播放器，讓你可以直接線上收聽。
 
-- DEMO 網址: https://fishiryoma.github.io/alphacast/
+- DEMO 網址: https://alpha-cast.vercel.app/
 
-* DEMO 影片:
+* DEMO 影片: https://youtu.be/Gt2M_usovGc
 
-- GitHub: https://github.com/fishiryoma/alphacast
+- GitHub: https://github.com/fishiryoma/ALPHAcast
 
 ### 使用 Bootstrap 打造
 
@@ -35,7 +35,7 @@
 下載檔案至本地資料夾
 
 ```
-git clone https://github.com/fishiryoma/alphacast
+git clone https://github.com/fishiryoma/ALPHAcast
 ```
 
 開啟專案資料夾後安裝檔案

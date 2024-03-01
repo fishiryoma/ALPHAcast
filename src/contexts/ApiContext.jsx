@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import { register, getCategory } from "../api/acApi";
 import useAuth from "./useAuth";
 import Cookies from "js-cookie";
@@ -11,34 +11,36 @@ export function ApiProvider({ children }) {
   const [nowPlayingEp, setNowPlayingEp] = useState("");
   const { isAuth } = useAuth();
 
-  useEffect(() => {
-    const getFavorite = async () => {
-      if (isAuth)
-        try {
-          const res = await register(Cookies.get("access_token"));
-          if (res.token) {
-            setFavoriteEp([...favoriteEp, ...res.favoriteEpisodeIds]);
-          }
-        } catch (err) {
-          console.error(`AC Login failed ${err}`);
-        }
-    };
-    const getMyCategory = async () => {
-      try {
-        const res = await getCategory();
-        if (res) {
-          const sortCategory = res.sort(
-            (a, b) => parseInt(a.id) - parseInt(b.id)
-          );
-          setMyCategory(sortCategory);
-        }
-      } catch (err) {
-        console.log(err);
+  const getFavorite = useCallback(async () => {
+    try {
+      const res = await register(Cookies.get("access_token"));
+      if (res.token) {
+        setFavoriteEp(res.favoriteEpisodeIds);
       }
-    };
-    getMyCategory();
+    } catch (err) {
+      console.error(`AC Login failed ${err}`);
+    }
+  }, []);
+
+  const getMyCategory = useCallback(async () => {
+    try {
+      const res = await getCategory();
+      if (res) {
+        const sortCategory = res.sort(
+          (a, b) => parseInt(a.id) - parseInt(b.id)
+        );
+        setMyCategory(sortCategory);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isAuth) return;
     getFavorite();
-  }, [isAuth]);
+    getMyCategory();
+  }, [getFavorite, getMyCategory, isAuth]);
 
   return (
     <ApiContext.Provider

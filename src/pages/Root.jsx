@@ -4,11 +4,10 @@ import Header from "../components/Header";
 import SideBar from "../components/Sidebar";
 import SpotifyMusicPanel from "../components/SpotifyMusicPanel";
 import { useNavigate } from "react-router-dom";
-import useApi from "../contexts/useApi";
 import useAuth from "../contexts/useAuth";
+import { ApiProvider } from "../contexts/ApiContext";
 
 export default function Root() {
-  const { myCategory } = useApi();
   const { isAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -40,26 +39,27 @@ export default function Root() {
   });
 
   useEffect(() => {
-    if (!isAuth) navigate("/login");
-    if (!myCategory.length) {
-      navigate("/mypage");
+    if (!isAuth) {
+      navigate("/login");
     }
-  }, [navigate, myCategory, isAuth]);
+  }, [navigate, isAuth]);
 
   return (
-    <div className="main_container">
-      <SideBar />
-      <div className="px-5">
-        <div className="pt-5 pb-4">
-          <Header />
-        </div>
-        <div className="d-flex">
-          <div className="col-10">
-            <Outlet />
+    <ApiProvider>
+      <div className="main_container">
+        <SideBar />
+        <div className="px-5">
+          <div className="pt-5 pb-4">
+            <Header />
           </div>
-          <SpotifyMusicPanel />
+          <div className="d-flex">
+            <div className="col-10">
+              <Outlet />
+            </div>
+            <SpotifyMusicPanel />
+          </div>
         </div>
       </div>
-    </div>
+    </ApiProvider>
   );
 }
