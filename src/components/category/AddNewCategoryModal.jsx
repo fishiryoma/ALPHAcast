@@ -4,6 +4,7 @@ import CategoryInput from "./CategoryInput";
 import EmojiInput from "./EmojiInput";
 import { getCategory, createCategory } from "../../api/acApi";
 import useApi from "../../contexts/useApi";
+import Swal from "sweetalert2";
 
 export default function AddNewCategoryModal() {
   const [showModal, setShowModal] = useState(false);
@@ -19,11 +20,18 @@ export default function AddNewCategoryModal() {
       if (success) {
         const updatedCategory = await getCategory();
         setMyCategory(updatedCategory);
-        setInput("");
-        setCategoryEmoji("1f642");
       }
     } catch (err) {
-      console.log(`reapeat${err}`);
+      console.log(`${err}`);
+      Swal.fire({
+        title: err,
+        icon: "error",
+        timer: 1800,
+        showConfirmButton: false,
+      });
+    } finally {
+      setInput("");
+      setCategoryEmoji("1f642");
     }
   };
   return (
@@ -45,6 +53,7 @@ export default function AddNewCategoryModal() {
           setInput("");
           setShowModal(false);
         }}
+        input={input}
         title="新增分類"
         body={
           <div className="d-flex gap-3">

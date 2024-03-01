@@ -35,6 +35,7 @@ export default function SideBar() {
       <hr className="hr col-9 bg-secondary" />
       <div className="col-10 mt-5 ">
         {renderedCategoryList}
+
         <button
           className="d-flex fs-4 align-items-center gap-4 col-12 py-3 btn btn-outline-dark border-0 border-rounded-lg mb-4"
           style={btnActive}

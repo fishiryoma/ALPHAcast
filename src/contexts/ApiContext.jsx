@@ -10,7 +10,6 @@ export function ApiProvider({ children }) {
   const [favoriteEp, setFavoriteEp] = useState([]);
   const [nowPlayingEp, setNowPlayingEp] = useState("");
   const { isAuth } = useAuth();
-  console.log("renderedAPICONTEXT");
 
   useEffect(() => {
     const getFavorite = async () => {

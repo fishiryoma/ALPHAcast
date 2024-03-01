@@ -1,17 +1,16 @@
 import { deleteShow } from "../../api/acApi";
 import useApi from "../../contexts/useApi";
 import Swal from "sweetalert2";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function SelectedShow({ handleClose, showInfo }) {
   const { myCategory, setMyCategory } = useApi();
-  const pathname = useLocation();
-  const nowCategory = pathname.pathname.split("/")[3];
+  let { categoryId } = useParams();
 
   const handleDelete = async () => {
     try {
       const res = await deleteShow({
-        categoryId: nowCategory,
+        categoryId,
         showId: showInfo?.id,
       });
       if (res) {
@@ -31,7 +30,7 @@ export default function SelectedShow({ handleClose, showInfo }) {
         });
         setMyCategory(
           myCategory.map((category) => {
-            if (category.id === nowCategory) {
+            if (category.id === categoryId) {
               return {
                 ...category,
                 savedShows: category.savedShows.filter(

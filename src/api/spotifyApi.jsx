@@ -4,7 +4,8 @@ import Cookies from "js-cookie";
 // //Request User Authorization
 const clientId = import.meta.env.VITE_SPOTIFY_ID;
 const clientSecert = import.meta.env.VITE_SPOTIFY_SECRET;
-const redirectUri = "http://localhost:3000/callback";
+// const redirectUri = "http://localhost:3000/callback";
+const redirectUri = "https://alpha-cast.vercel.app/callback";
 const scope = "user-read-private user-read-email";
 const authUrl = new URL("https://accounts.spotify.com/authorize");
 
@@ -52,7 +53,7 @@ export const getAccessToken = async (code) => {
     }
   } catch (err) {
     console.error(`Get Access Token Failed ${err}`);
-    throw err;
+    throw new Error("取得使用者授權失敗");
   }
 };
 
@@ -73,6 +74,7 @@ export const getRefreshToken = async () => {
     return data.access_token;
   } catch (err) {
     console.log(`Get refresh token failed ${err}`);
+    throw new Error("無法取得新的認證碼");
   }
 };
 
@@ -86,7 +88,7 @@ export const getProfile = async () => {
     return data;
   } catch (err) {
     console.log(`get profile failed ${err}`);
-    throw err;
+    throw new Error("取得使用者個人資料失敗");
   }
 };
 
@@ -101,6 +103,7 @@ export const searchShow = async (word) => {
     return data.shows;
   } catch (err) {
     console.error(`Search failed ${err}`);
+    throw new Error("搜尋節目失敗");
   }
 };
 
@@ -114,6 +117,7 @@ export const getShow = async (id) => {
     return data;
   } catch (err) {
     console.error(`Get show failed ${err}`);
+    throw new Error("取得節目資訊失敗");
   }
 };
 
@@ -127,6 +131,7 @@ export const getEpisodesByShow = async (id) => {
     return data;
   } catch (err) {
     console.error(`Get Episodes failed ${err}`);
+    throw new Error("取得Podcast資訊失敗");
   }
 };
 
@@ -140,5 +145,6 @@ export const getEpisodes = async (id) => {
     return data;
   } catch (err) {
     console.error(`Get Episodes failed ${err}`);
+    throw new Error("取得Podcast資訊失敗");
   }
 };

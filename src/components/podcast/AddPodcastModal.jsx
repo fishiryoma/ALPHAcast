@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchedShowCard from "./SearchedShowCard";
 import Modal from "react-bootstrap/Modal";
 import { IoIosSearch } from "react-icons/io";
@@ -6,14 +6,28 @@ import { addShow } from "../../api/acApi";
 import { searchShow } from "../../api/spotifyApi";
 import useApi from "../../contexts/useApi";
 import Swal from "sweetalert2";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import Loading from "../Loading";
 
 export default function AddPodcastModal({ show, setShowModal }) {
   const [searchedShows, setSearchedShows] = useState([]);
   const [isSelected, setIsSeleted] = useState("");
+  const [displaySection, setDisplaySection] = useState("");
   const { myCategory, setMyCategory } = useApi();
-  const pathname = useLocation();
-  const nowCategory = pathname.pathname.split("/")[3];
+  let { categoryId } = useParams();
+
+  // infinite Scroll開發中
+  // const obs = new IntersectionObserver(
+  //   function (entries) {
+  //     console.log(entries);
+  //     if (entries[0].isIntersecting) console.log("here");
+  //   },
+  //   {
+  //     root: document.getElementById("searchPodcast"),
+  //     threshold: 0,
+  //     rootMargin: 0,
+  //   }
+  // );
 
   const handleSaveClick = async () => {
     const Toast = Swal.mixin({
@@ -27,12 +41,12 @@ export default function AddPodcastModal({ show, setShowModal }) {
       },
     });
     try {
-      const res = await addShow({ showId: isSelected, categryId: nowCategory });
+      const res = await addShow({ showId: isSelected, categoryId });
       if (res) {
         setIsSeleted("");
         setMyCategory(
           myCategory.map((item) => {
-            if (item.id === nowCategory) {
+            if (item.id === categoryId) {
               return {
                 ...item,
                 savedShows: [...item.savedShows, { id: isSelected }],
@@ -59,16 +73,8 @@ export default function AddPodcastModal({ show, setShowModal }) {
     setShowModal(false);
     setIsSeleted("");
     setSearchedShows([]);
+    setDisplaySection("");
   };
-
-  const renderedPodcast = searchedShows?.map((item) => (
-    <SearchedShowCard
-      key={item.id}
-      info={item}
-      isSelected={isSelected}
-      setIsSeleted={setIsSeleted}
-    />
-  ));
 
   return (
     <div>
@@ -82,13 +88,17 @@ export default function AddPodcastModal({ show, setShowModal }) {
               <SearchInput
                 searchedShows={searchedShows}
                 setSearchedShows={setSearchedShows}
+                setDisplaySection={setDisplaySection}
               />
               <div className="fs-3 m-3 fw-bold">搜尋結果</div>
-              <div
-                className="scrollbar d-flex flex-wrap gap-5 p-1"
-                style={{ overflowY: "scroll", height: "40rem" }}
-              >
-                {renderedPodcast}
+
+              <div id="searchPodcast" style={{ height: "40rem" }}>
+                <SearchedDisplay
+                  displaySection={displaySection}
+                  searchedShows={searchedShows}
+                  isSelected={isSelected}
+                  setIsSeleted={setIsSeleted}
+                />
               </div>
             </div>
           </Modal.Body>
@@ -97,38 +107,71 @@ export default function AddPodcastModal({ show, setShowModal }) {
           <button className="btn fs-4 btn_lg" onClick={handleClose}>
             取消
           </button>
-          {isSelected ? (
-            <button
-              className="btn btn-orange-500 text-white fs-4 border-rounded-lg btn_lg"
-              onClick={handleSaveClick}
-            >
-              確認新增
-            </button>
-          ) : (
-            <button
-              className="btn btn-orange-500 text-white fs-4 border-rounded-lg btn_lg"
-              disabled
-            >
-              確認新增
-            </button>
-          )}
+          <button
+            className="btn text-white fs-4 border-rounded-lg btn_lg"
+            onClick={handleSaveClick}
+            disabled={!isSelected.length ? true : false}
+            style={{ backgroundColor: "#FF7F50" }}
+          >
+            確認新增
+          </button>
         </Modal.Footer>
       </Modal>
     </div>
   );
 }
 
-function SearchInput({ setSearchedShows }) {
+function SearchedDisplay({
+  displaySection,
+  searchedShows,
+  isSelected,
+  setIsSeleted,
+}) {
+  const renderedPodcast = searchedShows?.map((item) => (
+    <SearchedShowCard
+      key={item.id}
+      info={item}
+      isSelected={isSelected}
+      setIsSeleted={setIsSeleted}
+    />
+  ));
+  const display = () => {
+    if (displaySection === "") return "";
+    if (displaySection === "loading") return <Loading />;
+    if (displaySection === "finished")
+      return (
+        <div
+          className="scrollbar d-flex flex-wrap gap-5 p-1 h-100"
+          style={{ overflowY: "scroll" }}
+        >
+          {renderedPodcast}
+        </div>
+      );
+    if (displaySection === "findNO")
+      return <div className="text-center fs-3 mt-5">沒有找到相關資訊 🥲</div>;
+  };
+
+  return <>{display()}</>;
+}
+
+function SearchInput({ setSearchedShows, setDisplaySection }) {
   const [input, setInput] = useState("");
 
   const handleKeyPress = async (e) => {
+    let resData;
     if (e.key === "Enter") {
+      setDisplaySection("loading");
       try {
         const res = await searchShow(input);
+        resData = res;
         console.log(res.items);
         setSearchedShows(res.items);
       } catch (err) {
         console.log(`Search failed ${err}`);
+      } finally {
+        if (resData.items.length === 0) {
+          setDisplaySection("findNO");
+        } else setDisplaySection("finished");
       }
     }
   };

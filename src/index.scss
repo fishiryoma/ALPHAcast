@@ -66,7 +66,8 @@ menu {
   padding: 0;
   font-weight: normal;
 }
-a {
+a,
+a:active {
   cursor: pointer;
   text-decoration: none;
 }

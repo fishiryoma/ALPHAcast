@@ -22,9 +22,12 @@ export default function CategoryModal({
           >
             取消
           </button>
+
           <button
             className="btn btn-orange-500 text-white fs-4 btn_lg border-rounded-lg"
             onClick={handleSaveClick}
+            disabled={!rest.input?.length ? true : false}
+            style={{ backgroundColor: "#FF7F50" }}
           >
             儲存
           </button>

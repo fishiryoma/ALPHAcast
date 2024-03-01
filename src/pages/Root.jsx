@@ -5,21 +5,14 @@ import SideBar from "../components/Sidebar";
 import SpotifyMusicPanel from "../components/SpotifyMusicPanel";
 import { useNavigate } from "react-router-dom";
 import useApi from "../contexts/useApi";
+import useAuth from "../contexts/useAuth";
 
 export default function Root() {
   const { myCategory } = useApi();
+  const { isAuth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!myCategory.length) {
-      navigate("/mypage");
-      console.log(myCategory);
-    }
-  }, [navigate, myCategory]);
-
-  useEffect(() => {
-    console.log("useEffect in Root");
-    console.log(document.querySelectorAll(".play"));
     if (document.querySelectorAll(".play").length > 0) {
       window.onSpotifyIframeApiReady = (IFrameAPI) => {
         const options = {
@@ -27,7 +20,8 @@ export default function Root() {
         };
         const element = document.getElementById("embed-iframe");
         const callback = (EmbedController) => {
-          console.log(document.querySelectorAll(".play"));
+          // 測試用
+          // console.log(document.querySelectorAll(".play"), "初始化進行");
           document.querySelectorAll(".play").forEach((episode) => {
             episode.addEventListener("click", () => {
               EmbedController.loadUri(episode.dataset.spotifyId);
@@ -45,6 +39,13 @@ export default function Root() {
     }
   });
 
+  useEffect(() => {
+    if (!isAuth) navigate("/login");
+    if (!myCategory.length) {
+      navigate("/mypage");
+    }
+  }, [navigate, myCategory, isAuth]);
+
   return (
     <div className="main_container">
       <SideBar />
@@ -54,7 +55,7 @@ export default function Root() {
         </div>
         <div className="d-flex">
           <div className="col-10">
-            <Outlet context={{}} />
+            <Outlet />
           </div>
           <SpotifyMusicPanel />
         </div>

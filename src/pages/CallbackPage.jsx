@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 
 function CallbackPage() {
-  const { isAuth } = useAuth();
+  const { isAuth, setIsAuth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,9 +17,9 @@ function CallbackPage() {
       const loginAC = async () => {
         try {
           const refreshSpotifyToken = await getRefreshToken();
-          console.log("callback-1");
           const res = await register(refreshSpotifyToken);
           if (res.token) {
+            setIsAuth(true);
             LoginSuccessMsg();
             setTimeout(() => {
               navigate("/mypage");
@@ -50,6 +50,7 @@ function CallbackPage() {
             const spotifyToken = await getAccessToken(spotifyCode);
             const acPermission = await register(spotifyToken);
             if (acPermission.id) {
+              setIsAuth(true);
               RegisterSuccessMsg();
               setTimeout(() => {
                 navigate("/mypage");
@@ -57,12 +58,11 @@ function CallbackPage() {
             }
           } catch (err) {
             console.log(`Register Alphacast Failed ${err}`);
-            // 第一次註冊失效問題，待上線再做測試
-            // console.log("regis---2");
-            FailMsg();
-            setTimeout(() => {
-              navigate("/login");
-            }, 1500);
+            // 第一次註冊會先失敗一次，第二次才會成功，待上線再做測試
+            // FailMsg();
+            // setTimeout(() => {
+            //   navigate("/login");
+            // }, 1500);
           }
         };
         registerAC();
@@ -95,7 +95,6 @@ function CallbackPage() {
         >
           LOADING...
         </p>
-        =
       </div>
     </div>
   );

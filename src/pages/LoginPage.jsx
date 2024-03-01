@@ -28,11 +28,7 @@ export default function LoginPage() {
             Copyright 2024
           </p>
           <div className="d-flex flex-column align-items-center gap-5">
-            <img
-              src="../public/logo.png"
-              className=""
-              style={{ width: "26rem" }}
-            />
+            <img src="logo.png" className="" style={{ width: "26rem" }} />
             <button
               className="btn btn-success border-0 p-4 fs-4 border-rounded-lg"
               onClick={handleClick}
@@ -46,7 +42,14 @@ export default function LoginPage() {
             </button>
             <div className="fs-4">
               <span>沒有帳號嗎？</span>
-              <a className="fw-bold text-black">註冊帳號</a>
+              <a
+                className="fw-bold text-black"
+                href="https://www.spotify.com/tw/premium/"
+                target="_blank"
+                rel="noreferrer noopenner"
+              >
+                註冊帳號
+              </a>
             </div>
           </div>
         </div>

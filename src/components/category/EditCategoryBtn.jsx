@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FiMoreVertical } from "react-icons/fi";
 import { Emoji } from "emoji-picker-react";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -9,14 +9,14 @@ import EmojiInput from "./EmojiInput";
 import AddPodcastModal from "../podcast/AddPodcastModal";
 import { deleteCategory, editCategory, getCategory } from "../../api/acApi";
 import useApi from "./../../contexts/useApi";
+import Swal from "sweetalert2";
 
 export default function EditCategoryBtn({ icon, name, id }) {
+  let { categoryId } = useParams();
   const navigate = useNavigate();
-  const pathname = useLocation();
-  const nowCategory = pathname.pathname.split("/")[3];
   const btnActive = {
-    background: `${nowCategory === id ? "black" : ""}`,
-    color: `${nowCategory === id ? "white" : ""}`,
+    background: `${categoryId === id ? "black" : ""}`,
+    color: `${categoryId === id ? "white" : ""}`,
     stroke: "white",
   };
 
@@ -26,7 +26,6 @@ export default function EditCategoryBtn({ icon, name, id }) {
         className="w-100 d-flex justify-content-between py-3 btn btn-outline-dark border-0 border-rounded-lg"
         style={btnActive}
         onClick={() => {
-          // setNowCategory(id);
           navigate(`/mypage/show/${id}`);
         }}
       >
@@ -115,6 +114,7 @@ function DeleteCategoryModal({ show, setDeleteShow, name, icon, id }) {
       handleClose={() => setDeleteShow(false)}
       handleSaveClick={onDeleteClick}
       title="刪除分類"
+      input="1"
       body={
         <div>
           <span>您確定要繼續刪除 </span>
@@ -148,7 +148,13 @@ function EditCategoryModal({ show, setEditShow, name, icon, id }) {
           setMyCategory(sortCategory);
         }
       } catch (err) {
-        console.log(`Delete Category Failed ${err}`);
+        console.log(`${err}`);
+        Swal.fire({
+          title: err,
+          icon: "error",
+          timer: 1800,
+          showConfirmButton: false,
+        });
       }
     };
     handleEditClick();
@@ -160,6 +166,7 @@ function EditCategoryModal({ show, setEditShow, name, icon, id }) {
       handleClose={() => setEditShow(false)}
       handleSaveClick={onEditClick}
       title="編輯分類"
+      input={inputText}
       body={
         <div className="d-flex gap-3">
           <EmojiInput value={inputEmoji} setEmoji={setInpuEmoji} />
