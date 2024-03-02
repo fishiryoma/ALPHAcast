@@ -43,7 +43,6 @@ export const getAccessToken = async (code) => {
     Authorization: "Basic " + btoa(`${clientId}:${clientSecert}`),
   };
   try {
-    console.log("註冊API總共被呼叫幾次?");
     const { data } = await axios.post(url, params, { headers });
     if (data) {
       Cookies.set("access_token", data.access_token);

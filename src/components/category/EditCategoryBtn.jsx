@@ -132,7 +132,7 @@ function DeleteCategoryModal({ show, setDeleteShow, name, icon, id }) {
 function EditCategoryModal({ show, setEditShow, name, icon, id }) {
   const [inputText, setInputText] = useState(name);
   const [inputEmoji, setInpuEmoji] = useState(icon);
-  const { setMyCategory } = useApi();
+  const { setMyCategory, myCategory } = useApi();
 
   const onEditClick = () => {
     setEditShow(false);
@@ -141,11 +141,13 @@ function EditCategoryModal({ show, setEditShow, name, icon, id }) {
       try {
         const success = await editCategory({ id, name: categoryName });
         if (success) {
-          const res = await getCategory();
-          const sortCategory = res.sort(
-            (a, b) => parseInt(a.id) - parseInt(b.id)
+          setMyCategory(
+            myCategory.map((item) => {
+              if (id === item.id) {
+                return { ...item, name: categoryName };
+              } else return item;
+            })
           );
-          setMyCategory(sortCategory);
         }
       } catch (err) {
         console.log(`${err}`);

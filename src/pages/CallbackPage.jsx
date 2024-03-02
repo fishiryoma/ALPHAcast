@@ -11,7 +11,6 @@ function CallbackPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("callback執行幾次");
     const urlParams = new URLSearchParams(new URL(window.location).search);
     const spotifyCode = urlParams.get("code");
     if (urlParams.get("error")) {
@@ -36,8 +35,6 @@ function CallbackPage() {
           }
         } catch (err) {
           console.log(`Register Alphacast Failed ${err}`);
-          //第一次請求就成功了，不知道為什麼後續又跳出1次請求失敗的訊息
-          console.log("production 測試");
           setTimeout(() => {
             FailMsg("異常😟請重新整理頁面");
           }, 1500);

@@ -38,9 +38,7 @@ export const register = async (token) => {
 
 export const getCategory = async () => {
   try {
-    const { data } = await acApi.get("api/categories", {
-      // headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` },
-    });
+    const { data } = await acApi.get("api/categories");
     // 測試用
     // console.log(data);
     return data.categories;
@@ -51,13 +49,9 @@ export const getCategory = async () => {
 
 export const createCategory = async (name) => {
   try {
-    const { data } = await acApi.post(
-      "api/categories",
-      {
-        name,
-      }
-      // { headers: { Authorization: `Bearer ${Cookies.get("AC_token")}` } }
-    );
+    const { data } = await acApi.post("api/categories", {
+      name,
+    });
     // 測試用
     // console.log(data);
     return data.success;
