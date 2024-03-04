@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import FavoriteCard from "../components/podcast/FavoriteCard.jsx";
 import AddPodcastModal from "../components/podcast/AddPodcastModal.jsx";
 import useApi from "../contexts/useApi.jsx";

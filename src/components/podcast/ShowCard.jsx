@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getShow, getEpisodesByShow } from "../../api/spotifyApi";
 import Modal from "react-bootstrap/Modal";
 import EpisodeCard from "./EpisodeCard";
 import SelectedShow from "./SelectedShow";
+import { successMsg } from "../PopupMsg";
 
 export default function ShowCard({ id }) {
   const [showInfo, setShowInfo] = useState(null);
@@ -55,6 +56,7 @@ export default function ShowCard({ id }) {
 
 function EpisodeListModal({ show, handleClose, showInfo }) {
   const [episodes, setEpisodes] = useState(null);
+  const offset = useRef(10);
 
   useEffect(() => {
     const getAllEpisodes = async () => {
@@ -72,6 +74,20 @@ function EpisodeListModal({ show, handleClose, showInfo }) {
   const renderedCards = episodes?.map((ep) => (
     <EpisodeCard key={ep.id} episodeData={ep} />
   ));
+
+  const handleClick = async () => {
+    try {
+      const res = await getEpisodesByShow(showInfo.id, offset.current);
+      if (res) {
+        setEpisodes([...episodes, ...res.items]);
+        offset.current = offset.current + 10;
+      }
+    } catch (err) {
+      console.error(err);
+      successMsg("沒有更多集數了");
+    }
+  };
+
   return (
     <div>
       <Modal show={show} onHide={handleClose} centered size="lg">
@@ -82,6 +98,13 @@ function EpisodeListModal({ show, handleClose, showInfo }) {
           style={{ overflowY: "scroll", height: "40rem" }}
         >
           {renderedCards}
+          <button
+            className="btn fs-5 text-white btn_lg"
+            style={{ backgroundColor: "#FF7F50" }}
+            onClick={handleClick}
+          >
+            查看更多先前的集數
+          </button>
         </Modal.Body>
       </Modal>
     </div>

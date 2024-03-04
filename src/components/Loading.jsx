@@ -14,8 +14,8 @@ export default function Loading() {
           variant="info"
           className="m-5"
           style={{
-            width: "6rem",
-            height: "6rem",
+            width: "5rem",
+            height: "5rem",
             borderWidth: "1rem",
           }}
         />

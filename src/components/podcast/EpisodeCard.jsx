@@ -4,7 +4,7 @@ import { BsBookmarkFill } from "react-icons/bs";
 import { addEpisode, deleteEpisode } from "../../api/acApi";
 import PlayBtn from "../PlayBtn";
 import useApi from "../../contexts/useApi";
-import Swal from "sweetalert2";
+import { bottomMsg_s } from "../PopupMsg";
 
 export default function EpisodeCard({ episodeData }) {
   return (
@@ -44,26 +44,13 @@ function BookMarkBtn({ episodeData }) {
 
   const handleBookMarkClick = async () => {
     setBookMark(!bookMark);
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "bottom-end",
-      showConfirmButton: false,
-      timer: 2500,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      },
-    });
+
     try {
       if (!bookMark) {
         const res = await addEpisode(episodeData?.id);
         if (res) {
           setFavoriteEp([...favoriteEp, { id: episodeData?.id }]);
-
-          Toast.fire({
-            icon: "success",
-            html: '<p class="fs-4 fw-bold">成功加入收藏 😊</p>',
-          });
+          bottomMsg_s("成功加入收藏 😊");
         }
       } else {
         const res = await deleteEpisode(episodeData?.id);
@@ -71,18 +58,12 @@ function BookMarkBtn({ episodeData }) {
           setFavoriteEp(
             favoriteEp.filter((item) => item.id !== episodeData?.id)
           );
-          Toast.fire({
-            icon: "success",
-            html: '<p class="fs-4 fw-bold">成功移除收藏 😊</p>',
-          });
+          bottomMsg_s("成功移除收藏 😊");
         }
       }
     } catch (err) {
       console.log(`Edit Episode Failed ${err}`);
-      Toast.fire({
-        icon: "warning",
-        html: '<p class="fs-4 fw-bold">發生未知的錯誤 🤔</p>',
-      });
+      bottomMsg_s("發生未知的錯誤 🤔", "warning");
     }
   };
   return (

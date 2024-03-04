@@ -6,7 +6,7 @@
 
 - DEMO 網址: https://alpha-cast.vercel.app/
 
-* DEMO 影片: https://youtu.be/Gt2M_usovGc
+* DEMO 影片: https://youtu.be/deTt4LwPTQw
 
 - GitHub: https://github.com/fishiryoma/ALPHAcast
 
@@ -20,11 +20,11 @@
 
 ### Axios
 
-使用 Axios 向 API 獲取資料。利用 axios.create 功能建立可重複使用的函數，並加入 baseUrl 及 Header 中的 Authorization，以方便後續管理網頁能一鍵修改。在錯誤處理上，catch 裡都已 throw new Error 的方式，能有效的提示使用者及開發者。
+使用 Axios 向 API 獲取資料。利用 axios.create 功能建立可重複使用的 instance，並利用 request interceptor 功能加入 Authorization，以方便後續管理網頁能一鍵修改。在錯誤處理上，catch 裡使用 throw new Error ，能有效的提示使用者及開發者。
 
 ### React
 
-熟用 useState、useEffect。正確把握 React 渲染與 useEffect 執行的順序。
+熟用 useState、useEffect。正確把握 React 從渲染開始到 useEffect 的執行順序。利用 useCallback 維持正確資料流，遵守 useEffect dependency。
 
 ### 其他輔助 Library
 
@@ -63,6 +63,7 @@ http://127.0.0.1:3000/
 - Vite v5
 - Axios v1
 - Bootstrap v5
+- React-bootstrap v2
 - React-router-dom v6
 - Emoji-picker-react v4
 - Js-cookie v3

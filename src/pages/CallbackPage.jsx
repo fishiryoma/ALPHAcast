@@ -4,7 +4,7 @@ import { getAccessToken } from "../api/spotifyApi";
 import { register } from "../api/acApi";
 import useAuth from "../contexts/useAuth";
 import Spinner from "react-bootstrap/Spinner";
-import Swal from "sweetalert2";
+import { successMsg, failMsg } from "../components/PopupMsg";
 
 function CallbackPage() {
   const { setIsAuth } = useAuth();
@@ -15,7 +15,7 @@ function CallbackPage() {
     const spotifyCode = urlParams.get("code");
     if (urlParams.get("error")) {
       setTimeout(() => {
-        FailMsg("授權註冊失敗");
+        failMsg("授權註冊失敗");
         navigate("/login");
       }, 1500);
       return;
@@ -28,7 +28,7 @@ function CallbackPage() {
           const acPermission = await register(spotifyToken);
           if (acPermission.id) {
             setIsAuth(true);
-            SuccessMsg("登入或註冊成功");
+            successMsg("登入或註冊成功");
             setTimeout(() => {
               navigate("/mypage");
             }, 1500);
@@ -36,7 +36,7 @@ function CallbackPage() {
         } catch (err) {
           console.log(`Register Alphacast Failed ${err}`);
           setTimeout(() => {
-            FailMsg("異常😟請重新整理頁面");
+            failMsg("異常😟請重新整理頁面");
           }, 1500);
         }
       };
@@ -74,21 +74,3 @@ function CallbackPage() {
 }
 
 export default CallbackPage;
-
-function SuccessMsg(msg) {
-  return Swal.fire({
-    title: msg,
-    icon: "success",
-    timer: 1500,
-    showConfirmButton: false,
-  });
-}
-
-function FailMsg(msg) {
-  return Swal.fire({
-    title: msg,
-    icon: "error",
-    timer: 1500,
-    showConfirmButton: false,
-  });
-}

@@ -4,8 +4,8 @@ import Cookies from "js-cookie";
 // //Request User Authorization
 const clientId = import.meta.env.VITE_SPOTIFY_ID;
 const clientSecert = import.meta.env.VITE_SPOTIFY_SECRET;
-// const redirectUri = "http://localhost:3000/callback";
-const redirectUri = "https://alpha-cast.vercel.app/callback";
+const redirectUri = "http://localhost:3000/callback";
+// const redirectUri = "https://alpha-cast.vercel.app/callback";
 const scope = "user-read-private user-read-email";
 const authUrl = new URL("https://accounts.spotify.com/authorize");
 
@@ -90,8 +90,8 @@ export const getProfile = async () => {
 };
 
 // Spofity搜尋功能
-export const searchShow = async (word) => {
-  const url = `https://api.spotify.com/v1/search?q=${word}&type=show`;
+export const searchShow = async (word, offset = 0) => {
+  const url = `https://api.spotify.com/v1/search?q=${word}&type=show&limit=20&offset=${offset}`;
   try {
     const { data } = await axios.get(url, {
       headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },
@@ -116,8 +116,8 @@ export const getShow = async (id) => {
   }
 };
 
-export const getEpisodesByShow = async (id) => {
-  const url = `https://api.spotify.com/v1/shows/${id}/episodes`;
+export const getEpisodesByShow = async (id, offset = 0) => {
+  const url = `https://api.spotify.com/v1/shows/${id}/episodes?limit=10&offset=${offset}`;
   try {
     const { data } = await axios.get(url, {
       headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },

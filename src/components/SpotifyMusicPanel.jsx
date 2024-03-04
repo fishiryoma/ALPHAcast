@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { addEpisode, deleteEpisode } from "../api/acApi";
 import { BsBookmark } from "react-icons/bs";
 import { BsBookmarkFill } from "react-icons/bs";
@@ -10,46 +10,66 @@ export default function SpotifyMusicPanel() {
 
   return (
     <div className="p-4 shadow-sm border-0 bg-white">
-      <div className="bg-white">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "2.4rem",
-              fontWeight: 500,
-              color: "#1A202C",
-              margin: 0,
-            }}
-          >
-            現正撥放
-          </p>
-          <BookMarkBtn id={nowPlayingEp} />
-        </div>
-      </div>
-      <div>
-        <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "#111111" }}>
-          {nowPlayingEp.epData?.name}
-        </div>
-        <div style={{ fontSize: "1.2rem", fontWeight: 400, color: "#718096" }}>
-          <ShortenText
-            text={
-              nowPlayingEp.epData?.description
-                ? nowPlayingEp.epData?.description
-                : ""
-            }
-            maxLength={300}
-          />
-        </div>
+      {!nowPlayingEp.id.length ? (
+        ""
+      ) : (
+        <>
+          <div className="bg-white">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: "2.4rem",
+                  fontWeight: 500,
+                  color: "#1A202C",
+                  margin: 0,
+                }}
+              >
+                現正撥放
+              </p>
+              <BookMarkBtn id={nowPlayingEp} />
+            </div>
+          </div>
+          <div>
+            <div
+              style={{ fontSize: "1.4rem", fontWeight: 700, color: "#111111" }}
+            >
+              {nowPlayingEp.epData?.name}
+            </div>
+            <div
+              style={{ fontSize: "1.2rem", fontWeight: 400, color: "#718096" }}
+            >
+              <ShortenText
+                text={
+                  nowPlayingEp.epData?.description
+                    ? nowPlayingEp.epData?.description
+                    : ""
+                }
+                maxLength={300}
+              />
+            </div>
 
-        <div className="w-full">
-          <div id="embed-iframe"></div>
-        </div>
-      </div>
+            <div className="w-full">
+              <div id="spotifyPlayer">
+                <iframe
+                  style={{ borderRadius: "12px" }}
+                  src={`https://open.spotify.com/embed/episode/${nowPlayingEp.id}?utm_source=generator`}
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

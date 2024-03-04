@@ -12,33 +12,6 @@ export default function Root() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (document.querySelectorAll(".play").length > 0) {
-      window.onSpotifyIframeApiReady = (IFrameAPI) => {
-        const options = {
-          uri: `spotify:episode:7makk4oTQel546B0PZlDM5`,
-        };
-        const element = document.getElementById("embed-iframe");
-        const callback = (EmbedController) => {
-          // 測試用
-          // console.log(document.querySelectorAll(".play"), "初始化進行");
-          document.querySelectorAll(".play").forEach((episode) => {
-            episode.addEventListener("click", () => {
-              EmbedController.loadUri(episode.dataset.spotifyId);
-              EmbedController.play();
-            });
-          });
-          document.querySelectorAll(".pause").forEach((episode) => {
-            episode.addEventListener("click", () => {
-              EmbedController.togglePlay();
-            });
-          });
-        };
-        IFrameAPI.createController(element, options, callback);
-      };
-    }
-  });
-
-  useEffect(() => {
     if (!isAuth) {
       navigate("/login");
     }

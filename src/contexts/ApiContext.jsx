@@ -8,7 +8,7 @@ const ApiContext = createContext();
 export function ApiProvider({ children }) {
   const [myCategory, setMyCategory] = useState([]);
   const [favoriteEp, setFavoriteEp] = useState([]);
-  const [nowPlayingEp, setNowPlayingEp] = useState("");
+  const [nowPlayingEp, setNowPlayingEp] = useState({ id: "" });
   const { isAuth } = useAuth();
 
   const getFavorite = useCallback(async () => {

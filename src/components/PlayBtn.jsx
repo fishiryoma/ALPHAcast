@@ -19,10 +19,8 @@ export default function PlayBtn({ id, epData }) {
       }}
       style={{ cursor: "pointer" }}
     >
-      <div
-        className={`play ${playBtn ? "" : "visually-hidden"}`}
-        data-spotify-id={`spotify:episode:${id}`}
-      >
+      {player}
+      <div className={`play ${playBtn ? "" : "visually-hidden"}`}>
         <BsPlayCircleFill style={{ color: "#FF7F50", fontSize: "3rem" }} />
       </div>
       <div className={`pause ${!playBtn ? "" : "visually-hidden"}`}>

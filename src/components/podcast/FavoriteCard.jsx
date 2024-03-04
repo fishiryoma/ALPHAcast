@@ -6,6 +6,7 @@ import { BsBookmark } from "react-icons/bs";
 import { BsBookmarkFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 import { deleteEpisode } from "../../api/acApi";
+import { bottomMsg_s } from "../PopupMsg";
 
 export default function FavoriteCard({ id }) {
   const [epData, setEpData] = useState(null);
@@ -63,31 +64,15 @@ function BookMarkBtn({ id }) {
   const [bookMark, setBookMark] = useState(true);
   const { favoriteEp, setFavoriteEp } = useApi();
   const handleDeleteFavorite = async (id) => {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "bottom-end",
-      showConfirmButton: false,
-      timer: 2500,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      },
-    });
     try {
       const res = await deleteEpisode(id);
       if (res) {
         setFavoriteEp(favoriteEp.filter((item) => item.id !== id));
-        Toast.fire({
-          icon: "success",
-          html: '<p class="fs-4 fw-bold">成功移除最愛 😊</p>',
-        });
+        bottomMsg_s("成功移除最愛 😊");
       }
     } catch (err) {
       console.log(`Edit Episode Failed ${err}`);
-      Toast.fire({
-        icon: "warning",
-        html: '<p class="fs-4 fw-bold">發生未知的錯誤 🤔</p>',
-      });
+      bottomMsg_s("發生未知的錯誤 🤔", "warning");
     }
   };
 
