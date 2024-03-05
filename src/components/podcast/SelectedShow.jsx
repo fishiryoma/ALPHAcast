@@ -1,7 +1,9 @@
 import { deleteShow } from "../../api/acApi";
 import useApi from "../../contexts/useApi";
-import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import { successMsg } from "../PopupMsg";
+import thumbImg from "../../../public/thumbImg.svg";
+import { ShortenText } from "../Helper";
 
 export default function SelectedShow({ handleClose, showInfo }) {
   const { myCategory, setMyCategory } = useApi();
@@ -14,20 +16,7 @@ export default function SelectedShow({ handleClose, showInfo }) {
         showId: showInfo?.id,
       });
       if (res) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "bottom-end",
-          showConfirmButton: false,
-          timer: 2500,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "success",
-          html: '<p class="fs-4 fw-bold">成功移除 Podcast 😊</p>',
-        });
+        successMsg("成功移除 Podcast 😊");
         setMyCategory(
           myCategory.map((category) => {
             if (category.id === categoryId) {
@@ -49,7 +38,7 @@ export default function SelectedShow({ handleClose, showInfo }) {
   return (
     <div className="d-flex gap-4 p-4">
       <img
-        src={showInfo?.images[1].url}
+        src={showInfo?.images[1].url ? showInfo?.images[1].url : thumbImg}
         style={{ width: "12.8rem", height: "12.8rem" }}
         className="rounded-3"
       />
@@ -78,14 +67,6 @@ export default function SelectedShow({ handleClose, showInfo }) {
           </button>
         </div>
       </div>
-    </div>
-  );
-}
-
-function ShortenText({ text, maxLength }) {
-  return (
-    <div>
-      {text.length > maxLength ? `${text.slice(0, maxLength)}...` : text}
     </div>
   );
 }

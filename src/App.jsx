@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  // createBrowserRouter,
-  // RouterProvider,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import FavoritePage from "./pages/FavoritePage";
 import CallbackPage from "./pages/CallbackPage";
@@ -14,35 +8,15 @@ import Root from "./pages/Root.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import { ErrorBoundary } from "react-error-boundary";
 
-// 先保留createBrowserRouter可以正常使用ErrorPage
-// const router = createBrowserRouter([
-//   { path: "*", element: <LoginPage />, errorElement: <ErrorPage /> },
-//   { path: "/callback", element: <CallbackPage />, errorElement: <ErrorPage /> },
-//   {
-//     path: "/mypage",
-//     element: <Root />,
-//     children: [
-//       { index: true, element: <MyPage /> },
-//       { path: "/mypage/show/:categoryId", element: <ShowPage /> },
-//       { path: "/mypage/favorite", element: <FavoritePage /> },
-//     ],
-//     errorElement: <ErrorPage />,
-//   },
-// ]);
-function App() {
+export default function App() {
   return (
     <div>
       <BrowserRouter>
-        {/* 雖然放上ErrorBoundary但沒有功效 */}
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ErrorBoundary FallbackComponent={ErrorPage}>
           <Routes>
             <Route path="*" element={<LoginPage />} />
             <Route path="/callback" element={<CallbackPage />} />
-            <Route
-              path="/mypage"
-              element={<Root />}
-              errorElement={<ErrorPage />}
-            >
+            <Route path="/mypage" element={<Root />}>
               <Route index element={<MyPage />} />
               <Route path="/mypage/show/:categoryId" element={<ShowPage />} />
               <Route path="/mypage/favorite" element={<FavoritePage />} />
@@ -50,19 +24,6 @@ function App() {
           </Routes>
         </ErrorBoundary>
       </BrowserRouter>
-      {/* <RouterProvider router={router} /> */}
-    </div>
-  );
-}
-
-export default App;
-
-function ErrorFallback({ error, resetErrorBoundary }) {
-  return (
-    <div>
-      <p>Something went wrong:</p>
-      <pre>{error}</pre>
-      <button onClick={resetErrorBoundary}>Try again</button>
     </div>
   );
 }

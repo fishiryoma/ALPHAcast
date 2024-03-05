@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import EpisodeCard from "./EpisodeCard";
 import SelectedShow from "./SelectedShow";
 import { successMsg } from "../PopupMsg";
+import thumbImg from "../../../public/thumbImg.svg";
 
 export default function ShowCard({ id }) {
   const [showInfo, setShowInfo] = useState(null);
@@ -29,7 +30,7 @@ export default function ShowCard({ id }) {
       <div className="h-100 d-flex flex-column justify-content-between">
         <div>
           <img
-            src={showInfo?.images[1].url}
+            src={showInfo?.images[1].url ? showInfo?.images[1].url : thumbImg}
             className="rounded-3"
             style={{ width: "14.4rem", height: "14.4rem" }}
           />

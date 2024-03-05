@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "../api/spotifyApi";
-import { register } from "../api/acApi";
+import { register, getCategory, createCategory } from "../api/acApi";
 import useAuth from "../contexts/useAuth";
 import Spinner from "react-bootstrap/Spinner";
 import { successMsg, failMsg } from "../components/PopupMsg";
@@ -29,6 +29,10 @@ function CallbackPage() {
           if (acPermission.id) {
             setIsAuth(true);
             successMsg("登入或註冊成功");
+            const res = await getCategory();
+            if (res.length === 0) {
+              await createCategory("預設分類,26a0-fe0f");
+            }
             setTimeout(() => {
               navigate("/mypage");
             }, 1500);

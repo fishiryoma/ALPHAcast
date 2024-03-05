@@ -1,7 +1,7 @@
 import EditCategoryBtn from "./category/EditCategoryBtn";
 import AddNewCategoryModal from "./category/AddNewCategoryModal";
 import { Emoji } from "emoji-picker-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useApi from "../contexts/useApi";
 import logo from "../../public/logo.svg";
 
@@ -31,7 +31,9 @@ export default function SideBar() {
 
   return (
     <div className="bg-light d-flex flex-column align-items-center">
-      <img src={logo} alt="logo" className="col-9 my-5" />
+      <Link to="/mypage">
+        <img src={logo} alt="logo" className="col-9 my-5" />
+      </Link>
       <hr className="hr col-9 bg-secondary" />
       <div className="col-10 mt-5 ">
         {renderedCategoryList}

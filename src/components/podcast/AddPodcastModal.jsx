@@ -114,6 +114,7 @@ function SearchedDisplay({
   const toSearchRef = useRef(null);
   const page = useRef(20);
 
+  // infinite scroll
   const obs = useMemo(() => {
     return new IntersectionObserver(
       ([entry]) => {
@@ -121,7 +122,7 @@ function SearchedDisplay({
           const searchMore = async () => {
             try {
               const res = await searchShow(keyword, page.current);
-              console.log(res);
+              // console.log(res);
               if (res && res.items.length > 0) {
                 setSearchedShows([...searchedShows, ...res.items]);
                 page.current = page.current + 20;

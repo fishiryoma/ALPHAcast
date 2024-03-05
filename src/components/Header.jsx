@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getProfile } from "../api/spotifyApi";
-import { useNavigate } from "react-router-dom";
 import useAuth from "../contexts/useAuth";
 import Cookies from "js-cookie";
 import Dropdown from "react-bootstrap/Dropdown";
+import { successMsg } from "./PopupMsg";
 
 export default function Header() {
   return (
@@ -17,12 +17,12 @@ export default function Header() {
 }
 
 function UserProfile() {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState(null);
   useEffect(() => {
     const getUserProfile = async () => {
       try {
         const res = await getProfile();
-        if (res) setUserData([res]);
+        if (res) setUserData(res);
       } catch (err) {
         console.log(`get profile failed ${err}`);
       }
@@ -37,8 +37,8 @@ function UserProfile() {
     >
       <img
         src={
-          userData.length && userData[0].images.length
-            ? userData[0].images[0].url
+          userData?.images[0]?.url
+            ? userData?.images[0]?.url
             : "iconExample.svg"
         }
         alt="icon"
@@ -46,9 +46,7 @@ function UserProfile() {
         style={{ height: "4.8rem", width: "4.8rem" }}
       />
       <div className="d-flex">
-        <p className="fs-4">
-          {userData.length ? userData[0].display_name : ""}
-        </p>
+        <p className="fs-4">{userData ? userData?.display_name : "使用者"}</p>
         <LogOutDropDown />
       </div>
     </div>
@@ -69,11 +67,10 @@ function Greeting() {
 
 function LogOutDropDown() {
   const { setIsAuth } = useAuth();
-  const navigate = useNavigate();
   const handleClick = () => {
     Cookies.set("access_token", "");
     setIsAuth(false);
-    navigate("/login");
+    successMsg("已成功登出");
   };
 
   return (

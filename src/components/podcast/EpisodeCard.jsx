@@ -5,12 +5,14 @@ import { addEpisode, deleteEpisode } from "../../api/acApi";
 import PlayBtn from "../PlayBtn";
 import useApi from "../../contexts/useApi";
 import { bottomMsg_s } from "../PopupMsg";
+import thumbImg from "../../../public/thumbImg.svg";
+import { ShortenText, ConvertToHours } from "../Helper";
 
 export default function EpisodeCard({ episodeData }) {
   return (
-    <div className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3 ">
+    <div className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3">
       <img
-        src={episodeData?.images[1].url}
+        src={episodeData?.images[1].url ? episodeData?.images[1].url : thumbImg}
         style={{ width: "9.6rem", height: "9.6rem" }}
         className="rounded-3"
       />
@@ -77,25 +79,6 @@ function BookMarkBtn({ episodeData }) {
       ) : (
         <BsBookmark style={{ color: "#FF7F50", strokeWidth: 0.8 }} />
       )}
-    </div>
-  );
-}
-
-function ConvertToHours({ ms }) {
-  const seconds = Math.floor(ms / 1000);
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  return (
-    <>
-      {hours} 小時 {minutes} 分
-    </>
-  );
-}
-
-function ShortenText({ text, maxLength }) {
-  return (
-    <div>
-      {text.length > maxLength ? `${text.slice(0, maxLength)}...` : text}
     </div>
   );
 }

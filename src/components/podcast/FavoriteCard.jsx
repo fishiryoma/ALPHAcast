@@ -4,9 +4,10 @@ import useApi from "../../contexts/useApi";
 import PlayBtn from "../PlayBtn";
 import { BsBookmark } from "react-icons/bs";
 import { BsBookmarkFill } from "react-icons/bs";
-import Swal from "sweetalert2";
 import { deleteEpisode } from "../../api/acApi";
 import { bottomMsg_s } from "../PopupMsg";
+import thumbImg from "../../../public/thumbImg.svg";
+import { ShortenText, ConvertToHours } from "../Helper";
 
 export default function FavoriteCard({ id }) {
   const [epData, setEpData] = useState(null);
@@ -33,7 +34,7 @@ export default function FavoriteCard({ id }) {
       }}
     >
       <img
-        src={epData?.images[1].url}
+        src={epData?.images[1].url ? epData?.images[1].url : thumbImg}
         style={{ width: "9.6rem", height: "9.6rem" }}
         className="rounded-3"
       />
@@ -92,25 +93,6 @@ function BookMarkBtn({ id }) {
       ) : (
         <BsBookmark style={{ color: "#FF7F50", strokeWidth: 0.8 }} />
       )}
-    </div>
-  );
-}
-
-function ConvertToHours({ ms }) {
-  const seconds = Math.floor(ms / 1000);
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  return (
-    <>
-      {hours} 小時 {minutes} 分
-    </>
-  );
-}
-
-function ShortenText({ text, maxLength }) {
-  return (
-    <div>
-      {text?.length > maxLength ? `${text.slice(0, maxLength)}...` : text}
     </div>
   );
 }
