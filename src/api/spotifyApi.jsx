@@ -4,8 +4,8 @@ import Cookies from "js-cookie";
 // //Request User Authorization
 const clientId = import.meta.env.VITE_SPOTIFY_ID;
 const clientSecert = import.meta.env.VITE_SPOTIFY_SECRET;
-const redirectUri = "http://localhost:3000/callback";
-// const redirectUri = "https://alpha-cast.vercel.app/callback";
+// const redirectUri = "http://localhost:3000/callback";
+const redirectUri = "https://alpha-cast.vercel.app/callback";
 const scope = "user-read-private user-read-email";
 const authUrl = new URL("https://accounts.spotify.com/authorize");
 
