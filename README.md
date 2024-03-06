@@ -4,9 +4,11 @@
 ![Alt text](public/demo01.png)
 功能包含新增、編輯及刪除分類，搜尋 Spotify 上的 Podcast 節目，並加入"已收藏"清單。也串接了 Spotfiy 播放器，讓你可以直接線上收聽。
 
-- Live 網址: https://alpha-cast.vercel.app/
+- Live 網址: [https://alpha-cast.vercel.app/](https://alpha-cast.vercel.app/)
+  (需要把帳號加入白名單才能使用
 
-* DEMO 影片: https://youtu.be/deTt4LwPTQw
+* DEMO 手機版影片: [https://youtu.be/8_O6Ygtt63M](https://youtu.be/8_O6Ygtt63M)
+* DEMO 電腦版影片: [https://youtu.be/deTt4LwPTQw](https://youtu.be/VQozrVkyejw)
 
 - GitHub: https://github.com/fishiryoma/ALPHAcast
 
