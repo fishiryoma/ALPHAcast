@@ -28,9 +28,10 @@ export default function FavoriteCard({ id }) {
 
   return (
     <div
-      className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3 m-1"
+      className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3 m-1 scrollbar"
       style={{
         outline: `${nowPlayingEp.id === id ? "solid 2px #FF7F50" : ""}`,
+        overflowX: "scroll",
       }}
     >
       <img
