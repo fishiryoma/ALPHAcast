@@ -7,8 +7,8 @@
 - Live 網址: [https://alpha-cast.vercel.app/](https://alpha-cast.vercel.app/)
   (需要把帳號加入白名單才能使用
 
-* DEMO 手機版影片: [https://youtu.be/8_O6Ygtt63M](https://youtu.be/8_O6Ygtt63M)
-* DEMO 電腦版影片: [https://youtu.be/deTt4LwPTQw](https://youtu.be/VQozrVkyejw)
+* DEMO 手機版影片: [https://youtu.be/VQozrVkyejw](https://youtu.be/VQozrVkyejw)
+* DEMO 電腦版影片: [https://youtu.be/8_O6Ygtt63M](https://youtu.be/8_O6Ygtt63M)
 
 - GitHub: https://github.com/fishiryoma/ALPHAcast
 
