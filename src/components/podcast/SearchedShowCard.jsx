@@ -4,7 +4,7 @@ import { ShortenText } from "../Helper";
 export default function SearchedShowCard({ info, isSelected, setIsSeleted }) {
   return (
     <div
-      className="shadow rounded-3 p-4 "
+      className="shadow rounded-3 p-4 scrollbar"
       style={{
         width: "16.5rem",
         outline: `${isSelected === info?.id ? "solid 2px #FF7F50" : ""}`,

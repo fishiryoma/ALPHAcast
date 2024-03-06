@@ -1,6 +1,7 @@
 import { BsPlayCircleFill } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import useApi from "../contexts/useApi";
+import { bottomMsg_s } from "./PopupMsg";
 
 export default function PlayBtn({ id, epData }) {
   const [playBtn, setPlayBtn] = useState(true);
@@ -15,6 +16,7 @@ export default function PlayBtn({ id, epData }) {
       onClick={() => {
         setPlayBtn(!playBtn);
         setNowPlayingEp({ id, epData });
+        bottomMsg_s("開始撥放，快去查看撥放器", "info");
       }}
       style={{ cursor: "pointer" }}
     >

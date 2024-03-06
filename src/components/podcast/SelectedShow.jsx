@@ -37,7 +37,7 @@ export default function SelectedShow({ handleClose, showInfo }) {
 
   return (
     <div
-      className="d-flex gap-4 p-4 w-100"
+      className="d-flex gap-4 p-4 w-100 scrollbar"
       style={{ minHeight: "15rem", maxHeight: "20rem", overflow: "scroll" }}
     >
       <img
