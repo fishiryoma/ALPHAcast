@@ -37,7 +37,7 @@ export default function AddNewCategoryModal() {
   return (
     <>
       <button
-        className="btn btn-outline-info col-12 px-4 fs-4 hover_text_white border-rounded-lg border-2"
+        className="btn btn-outline-info col-12 px-4 fs-4 hover_text_white border-rounded-lg border-2 mb-3"
         onClick={() => {
           setShowModal(true);
         }}

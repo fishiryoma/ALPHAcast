@@ -31,22 +31,21 @@ export default function LoginPage() {
 
   return (
     <div className="overflow-hidden">
-      <div className="row h-100">
-        <div className="col position-relative d-flex align-items-center justify-content-center">
+      <div className="row h-100 login">
+        <div className="col position-relative d-flex align-items-center justify-content-center vh-100 p-0">
           <p
             className="position-absolute start-50 translate-middle fs-5"
             style={{ bottom: "3rem", color: "#AAAAAA" }}
           >
             Copyright 2024
           </p>
-          <div className="d-flex flex-column align-items-center gap-5">
+          <div className="d-flex flex-column align-items-center gap-5 w-100">
             <img src={logo} className="" style={{ width: "26rem" }} />
             <button
-              className="btn btn-success border-0 p-4 fs-4 border-rounded-lg"
+              className="btn btn-success border-0 p-4 fs-4 border-rounded-lg col-8"
               onClick={handleClick}
               style={{
                 backgroundColor: "#1ED760",
-                width: "42rem",
                 height: "7.3rem",
               }}
             >
@@ -65,7 +64,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-        <div className="col">
+        <div className="col vh-100 p-0">
           <LoginCarousel />
         </div>
       </div>

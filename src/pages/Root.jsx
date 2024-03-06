@@ -21,12 +21,12 @@ export default function Root() {
     <ApiProvider>
       <div className="main_container">
         <SideBar />
-        <div className="px-5">
-          <div className="pt-5 pb-4">
+        <div className="px-5 main_block">
+          <div className="pt-5 pb-4 header">
             <Header />
           </div>
-          <div className="d-flex">
-            <div className="col-10">
+          <div className="d-flex main_display">
+            <div className="col-8 card_dsiplay">
               <Outlet />
             </div>
             <SpotifyMusicPanel />

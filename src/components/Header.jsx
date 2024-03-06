@@ -4,14 +4,17 @@ import useAuth from "../contexts/useAuth";
 import Cookies from "js-cookie";
 import Dropdown from "react-bootstrap/Dropdown";
 import { successMsg } from "./PopupMsg";
+import icon from "../../public/icon.jpg";
 
 export default function Header() {
   return (
-    <div className="d-flex justify-content-between align-items-center">
-      <p className="fs-1 fw-bold col-10">
-        <Greeting />
-      </p>
-      <UserProfile />
+    <div className="d-flex align-items-center">
+      <div className="flex-grow-1 d-flex justify-content-between align-items-center">
+        <p className="fs-1 fw-bold col-4">
+          <Greeting />
+        </p>
+        <UserProfile />
+      </div>
     </div>
   );
 }
@@ -36,11 +39,7 @@ function UserProfile() {
       style={{ backgroundColor: "#FAFAFA" }}
     >
       <img
-        src={
-          userData?.images[0]?.url
-            ? userData?.images[0]?.url
-            : "iconExample.svg"
-        }
+        src={userData?.images[0]?.url ? userData?.images[0]?.url : icon}
         alt="icon"
         className="m-0 rounded-circle"
         style={{ height: "4.8rem", width: "4.8rem" }}

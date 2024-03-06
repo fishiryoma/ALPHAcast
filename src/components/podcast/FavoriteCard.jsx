@@ -42,7 +42,6 @@ export default function FavoriteCard({ id }) {
         <div>
           <div className="d-flex justify-content-between align-items-center">
             <div className="fs-5 fw-bold mt-2">{epData?.name}</div>
-            {/* <BookMarkBtn handleDeleteFavorite={handleDeleteFavorite} id={id} /> */}
             <BookMarkBtn id={id} />
           </div>
           <div className="text-gray-500 fs-5 mt-1">

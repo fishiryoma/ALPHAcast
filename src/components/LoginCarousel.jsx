@@ -28,7 +28,7 @@ export default function LoginCarousel() {
   const rendered = text.map((item) => (
     <Carousel.Item key={item.img} style={{ height: "100vh" }}>
       <div
-        className="d-flex w-100 justify-content-center align-items-center h-100"
+        className="d-flex w-100 justify-content-center align-items-center h-100 p-0"
         style={{ backgroundColor: item.bg }}
       >
         <img
@@ -37,7 +37,12 @@ export default function LoginCarousel() {
         />
       </div>
       <Carousel.Caption style={{ bottom: "10rem" }}>
-        <h3 style={{ fontWeight: 700, fontSize: "4.2rem" }}>{item.title}</h3>
+        <h3
+          style={{ fontWeight: 700, fontSize: "4.2rem" }}
+          className="carousel_title"
+        >
+          {item.title}
+        </h3>
         <p style={{ fontWeight: 400, fontSize: "1.6rem", marginTop: "3rem" }}>
           {item.text}
         </p>

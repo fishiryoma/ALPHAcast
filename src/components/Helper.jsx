@@ -1,7 +1,7 @@
 export function ShortenText({ text, maxLength }) {
   return (
     <div>
-      {text.length > maxLength ? `${text.slice(0, maxLength)}...` : text}
+      {text?.length > maxLength ? `${text.slice(0, maxLength)}...` : text}
     </div>
   );
 }

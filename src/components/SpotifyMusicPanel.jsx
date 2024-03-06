@@ -12,7 +12,10 @@ export default function SpotifyMusicPanel() {
     ""
   ) : (
     <>
-      <div className="p-4 shadow-sm border-0 bg-white">
+      <div
+        className="p-4 shadow-sm border-0 bg-white"
+        // style={{ width: "300rem" }}
+      >
         <div className="bg-white">
           <div
             style={{
