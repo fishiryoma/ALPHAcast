@@ -10,7 +10,11 @@ import { ShortenText, ConvertToHours } from "../Helper";
 
 export default function EpisodeCard({ episodeData }) {
   return (
-    <div className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3">
+    <div
+      className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3"
+      style={{ maxHeight: "25rem", overflow: "scroll", minHeight: "16rem" }}
+    >
+      {/* minHeight: "16rem", , height: "20rem"  */}
       <img
         src={episodeData?.images[1].url ? episodeData?.images[1].url : thumbImg}
         style={{ width: "9.6rem", height: "9.6rem" }}

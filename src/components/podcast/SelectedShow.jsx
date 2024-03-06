@@ -36,7 +36,10 @@ export default function SelectedShow({ handleClose, showInfo }) {
   };
 
   return (
-    <div className="d-flex gap-4 p-4">
+    <div
+      className="d-flex gap-4 p-4 w-100"
+      style={{ minHeight: "15rem", maxHeight: "20rem", overflow: "scroll" }}
+    >
       <img
         src={showInfo?.images[1].url ? showInfo?.images[1].url : thumbImg}
         style={{ width: "12.8rem", height: "12.8rem" }}
