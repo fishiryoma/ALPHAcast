@@ -9,6 +9,7 @@ export default function SearchedShowCard({ info, isSelected, setIsSeleted }) {
         width: "16.5rem",
         outline: `${isSelected === info?.id ? "solid 2px #FF7F50" : ""}`,
         maxHeight: "25rem",
+        overflowY: "hidden",
       }}
       onClick={() => setIsSeleted(info.id)}
     >
@@ -24,7 +25,7 @@ export default function SearchedShowCard({ info, isSelected, setIsSeleted }) {
           <ShortenText text={info.name} maxLength={30} />
         </div>
         <div className="text-gray-500 fs-5 mt-1">
-          <ShortenText text={info.publisher} maxLength={30} />
+          <ShortenText text={info.publisher} maxLength={13} />
         </div>
       </div>
     </div>
