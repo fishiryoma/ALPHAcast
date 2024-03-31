@@ -8,9 +8,11 @@ import { deleteEpisode } from "../../api/acApi";
 import { bottomMsg_s } from "../PopupMsg";
 import thumbImg from "../../../public/thumbImg.svg";
 import { ShortenText, ConvertToHours } from "../Helper";
+import { EpisodeListModal } from "./ShowCard";
 
 export default function FavoriteCard({ id }) {
   const [epData, setEpData] = useState(null);
+  const [show, setShow] = useState(false);
   const { nowPlayingEp } = useApi();
 
   useEffect(() => {
@@ -36,8 +38,9 @@ export default function FavoriteCard({ id }) {
     >
       <img
         src={epData?.images[1].url ? epData?.images[1].url : thumbImg}
-        style={{ width: "9.6rem", height: "9.6rem" }}
+        style={{ width: "9.6rem", height: "9.6rem", cursor: "pointer" }}
         className="rounded-3"
+        onClick={() => setShow(true)}
       />
       <div className="d-flex flex-column flex-grow-1">
         <div>
@@ -57,6 +60,11 @@ export default function FavoriteCard({ id }) {
           </p>
         </div>
       </div>
+      <EpisodeListModal
+        show={show}
+        handleClose={() => setShow(false)}
+        showInfo={epData?.show}
+      />
     </div>
   );
 }

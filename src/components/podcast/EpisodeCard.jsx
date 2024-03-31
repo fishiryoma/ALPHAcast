@@ -12,7 +12,7 @@ export default function EpisodeCard({ episodeData }) {
   return (
     <div
       className="d-flex gap-4 border border-light shadow-sm border-rounded-lg p-3 scrollbar"
-      style={{ maxHeight: "25rem", overflow: "scroll", minHeight: "16rem" }}
+      style={{ maxHeight: "25rem", overflow: "auto", minHeight: "16rem" }}
     >
       {/* minHeight: "16rem", , height: "20rem"  */}
       <img

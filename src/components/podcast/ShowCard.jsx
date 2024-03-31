@@ -55,7 +55,7 @@ export default function ShowCard({ id }) {
   );
 }
 
-function EpisodeListModal({ show, handleClose, showInfo }) {
+export function EpisodeListModal({ show, handleClose, showInfo }) {
   const [episodes, setEpisodes] = useState(null);
   const offset = useRef(10);
 
@@ -96,7 +96,7 @@ function EpisodeListModal({ show, handleClose, showInfo }) {
         <hr className="hr" style={{ color: "#EBEBEB" }}></hr>
         <Modal.Body
           className="d-flex flex-column gap-4 scrollbar p-4"
-          style={{ overflowY: "scroll", height: "40rem" }}
+          style={{ overflow: "auto", height: "40rem" }}
         >
           {renderedCards}
           <button

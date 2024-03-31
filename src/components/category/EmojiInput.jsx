@@ -14,7 +14,7 @@ export default function EmojiInput({ setEmoji, value }) {
           open={emojiOpen}
           searchPlaceholder="00000"
           onEmojiClick={(emoji) => {
-            console.log(emoji.unified);
+            // console.log(emoji.unified);
             setEmojiOpen(false);
             setEmoji(emoji.unified);
           }}

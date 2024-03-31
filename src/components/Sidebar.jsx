@@ -33,12 +33,18 @@ export default function SideBar() {
   });
 
   return (
-    <div className="bg-light d-flex flex-column align-items-center">
+    <div className="bg-light d-flex flex-column align-items-center sidebar">
       <div className="d-flex align-items-center gap-5">
         <Link to="/mypage">
           <img src={logo} alt="logo" className="w-100 my-5 mx-auto" />
         </Link>
-        <div className="toggle_label fs-1" onClick={() => setToggle(!toggle)}>
+        <div
+          className="toggle_label fs-1"
+          onClick={() => {
+            // console.log(toggle);
+            setToggle(!toggle);
+          }}
+        >
           <FiMenu />
         </div>
       </div>

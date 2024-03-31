@@ -21,7 +21,7 @@ export default function Root() {
     <ApiProvider>
       <div className="main_container">
         <SideBar />
-        <div className="px-5 main_block">
+        <div className="px-5 main_block ">
           <div className="pt-5 pb-4 header">
             <Header />
           </div>
